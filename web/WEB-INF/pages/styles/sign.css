@@ -1,0 +1,55 @@
+body {
+	text-align: center;
+	min-height: 300px;
+	background: #283139;
+}
+
+form {
+	display: inline-block;
+	margin-top: 10%;
+}
+
+table, td {
+	vertical-align: top;
+	border-collapse: collapse;
+	width: 300px;
+}
+
+table {
+	background: white;
+	border-radius: 10px;
+}
+
+td {
+	/*height: 50px;*/
+	text-align: left;
+	padding: 0 10px 10px 10px;
+	font-size: 15px;
+}
+
+td input {
+	width: 98%;
+	border: 1px solid grey;
+	border-radius: 5px;
+	font-size: 15px; 
+	padding: 2px;
+}
+
+.errorMsg {
+	color: red;
+	font-size: 15px;
+}
+
+.submit {
+	text-align: right;
+}
+
+.submit input {
+	background: #608ef2;
+	border-radius: 10px;
+	border: none;
+	font-size: 15px;
+	color: white;
+	width: 100px;
+	height: 30px;
+}

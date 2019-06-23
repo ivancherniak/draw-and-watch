@@ -22,4 +22,11 @@ public class HomeController {
 		model.addAttribute("user", new User());
 		return "login";
 	}
+
+	@RequestMapping(value = "/registration", method = RequestMethod.GET)
+	public String goToRegistration(ModelMap model) {
+		model.addAttribute("msg", "hello test");
+		model.addAttribute("user", new User());
+		return "registration";
+	}
 }
