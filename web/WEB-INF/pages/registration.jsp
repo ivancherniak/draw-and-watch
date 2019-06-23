@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Sing Up</title>
-    <style><%@include file="styles/sign.css"%></style>
+    <style><%@include file="styles/signStyle.css"%></style>
     <style><%@include file="styles/commonStyle.css"%></style>
 </head>
 <body>

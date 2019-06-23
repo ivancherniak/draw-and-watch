@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Sign In</title>
     <style><%@include file="styles/commonStyle.css"%></style>
-    <style><%@include file="styles/sign.css"%></style>
+    <style><%@include file="styles/signStyle.css"%></style>
 </head>
 <body>
 <form method="post">

@@ -1,0 +1,26 @@
+.content table {
+	margin: 5px;
+}
+
+td {
+	width: 25%;
+}
+
+.info {
+	text-align: left;
+	width: 50%;
+}
+
+.info a {
+	color: inherit;
+}
+
+input {
+	color: white;
+	background-color: #3f5c9b;
+	border: none;
+	font-size: inherit;
+	width: 150px;
+	height: 30px;
+	border-radius: 5px;
+}
