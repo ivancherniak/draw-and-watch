@@ -53,3 +53,9 @@ td input {
 	width: 100px;
 	height: 30px;
 }
+
+.ref {
+	font-size: 13px;
+	color: #608ef2;
+	text-align: center;
+}

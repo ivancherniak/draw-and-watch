@@ -20,7 +20,7 @@ public class HomeController {
 	public String printTest(ModelMap model) {
 		model.addAttribute("msg", "hello test");
 		model.addAttribute("user", new User());
-		return "login";
+		return "signin";
 	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
