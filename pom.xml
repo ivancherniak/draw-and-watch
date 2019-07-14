@@ -5,15 +5,26 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>group6</groupId>
-    <artifactId>draw-and-watch</artifactId>
+    <artifactId>parentID</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <modules>
         <module>app</module>
         <module>db</module>
-        <module>model</module>
+        <module>ear</module>
     </modules>
 
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
