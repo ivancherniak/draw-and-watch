@@ -30,9 +30,15 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-    <!--<bean id="userDAOImpl" class="DAOImpl.UserDAOImpl">
-        <constructor-arg ref="jdbcTemplate"/>
-    </bean>-->
+    <bean id="homeController" class="application.controller.HomeController">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="userDAOImpl" class="DAOImpl.UserDAOImpl" parent="baseDAO"/>
+
+    <bean id="registrationController" class="application.controller.RegistrationController">
+        <property name="userDAO" ref="userDAOImpl"/>
+    </bean>
 
     <mvc:resources mapping="/static/**" location="static/"/>
     <mvc:annotation-driven/>

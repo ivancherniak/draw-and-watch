@@ -14,19 +14,13 @@ public class HomeController {
 
 	private JdbcTemplate jdbcTemplate;
 
-	private UserDAOImpl userDAO;
-
-	public void setUserDAO(UserDAOImpl userDAO) {
-		this.userDAO = userDAO;
-	}
-
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@RequestMapping(value = {"/home", "", "/"}, method = RequestMethod.GET)
 	public String printHello(ModelMap model) {
-		model.addAttribute("users", userDAO.getAllUsers());
+		//model.addAttribute("users", userDAO.getAllUsers());
 		return "home";
 	}
 

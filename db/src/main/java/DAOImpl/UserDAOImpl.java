@@ -58,7 +58,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 			statement.setString(1, user.getLogin());
 			resultSet = statement.executeQuery();
 			if (resultSet.next()) {
-				model.addAttribute("login", "This login is already in use");
+				model.addAttribute("invalidLogin", "This login is already in use");
 				return false;
 			}
 			return true;

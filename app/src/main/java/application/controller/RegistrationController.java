@@ -14,15 +14,18 @@ import java.sql.SQLException;
 
 @Controller
 public class RegistrationController {
+	UserDAOImpl userDAO;
+
+	public void setUserDAO(UserDAOImpl userDAO) {
+		this.userDAO = userDAO;
+	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerUser(@ModelAttribute User user, ModelMap model) {
 		if (user.isValid(model)) {
 			try {
-				UserDAOImpl userDAO = new UserDAOImpl();
-				if (userDAO.registerNewUser(user, model)) {
-					return "home";
-				}
+				userDAO.registerNewUser(user, model);
+				return "home";
 			} catch (SQLException e) {
 				model.addAttribute("SQLError", "Error while trying to register user. Please try again");
 				// TODO: 20.07.2019 add logger

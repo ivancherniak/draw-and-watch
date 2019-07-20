@@ -65,14 +65,18 @@
         <tr>
             <td colspan="2" class="submit">
                 <input type="submit" value="Sign Up">
+
             </td>
+
         </tr>
+        <% if(request.getAttribute("SQLError") != null) { %>
+        <tr><td colspan="2">
+            <span class="errorMsg">
+                <%=request.getAttribute("SQLError")%>
+            </span>
+        </td></tr>
+        <% } %>
     </table>
-    <% if(request.getAttribute("SQLError") != null) { %>
-    <span class="errorMsg">
-        <%=request.getAttribute("SQLError")%>
-    </span>
-    <% } %>
 </form>
 </body>
 </html>
