@@ -46,7 +46,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 				statement.setString(3, user.getPassword());
 				return statement.execute();
 			} finally {
-				if (statement != null) statement.close();
+				//if (statement != null) statement.close();
 			}
 		}
 		return false;
@@ -63,8 +63,8 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 			}
 			return true;
 		} finally {
-			if (statement != null) statement.close();
-			if (resultSet != null) resultSet.close();
+			//if (statement != null) statement.close();
+			//if (resultSet != null) resultSet.close();
 		}
 	}
 }

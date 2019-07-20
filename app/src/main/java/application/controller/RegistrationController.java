@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
@@ -20,14 +21,16 @@ public class RegistrationController {
 		this.userDAO = userDAO;
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registerUser(@ModelAttribute User user, ModelMap model) {
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	public String registerUser(@ModelAttribute("loggedUser") User user, ModelMap model, HttpServletRequest request) {
 		if (user.isValid(model)) {
 			try {
-				userDAO.registerNewUser(user, model);
-				return "home";
+				if (!userDAO.registerNewUser(user, model)) {
+					model.put("loggedUser", user);
+					return "home";
+				}
 			} catch (SQLException e) {
-				model.addAttribute("SQLError", "Error while trying to register user. Please try again");
+				model.addAttribute("SQLError", "Error while trying to register user. <br>Please try again");
 				// TODO: 20.07.2019 add logger
 			}
 		}

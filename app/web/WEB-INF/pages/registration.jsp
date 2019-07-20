@@ -7,7 +7,7 @@
     <style><%@include file="styles/commonStyle.css"%></style>
 </head>
 <body>
-<form action="/app/register" method="post">
+<form action="/app/registration" method="post">
     <table>
         <tr>
             <th>
@@ -33,8 +33,8 @@
                 <br>
                 <% if(request.getAttribute("invalidLogin") != null) { %>
                 <span class="errorMsg">
-                            <%=request.getAttribute("invalidLogin")%>
-                        </span>
+                    <%=request.getAttribute("invalidLogin")%>
+                </span>
                 <% } %>
             </td>
         </tr>
@@ -45,8 +45,8 @@
                 <br>
                 <% if(request.getAttribute("invalidPassword") != null) { %>
                 <span class="errorMsg">
-                            <%=request.getAttribute("invalidPassword")%>
-                        </span>
+                    <%=request.getAttribute("invalidPassword")%>
+                </span>
                 <% } %>
             </td>
         </tr>
@@ -57,14 +57,14 @@
                 <br>
                 <% if(request.getAttribute("passwordsDontMatch") != null) { %>
                 <span class="errorMsg">
-                            <%=request.getAttribute("passwordsDontMatch")%>
-                        </span>
+                    <%=request.getAttribute("passwordsDontMatch")%>
+                </span>
                 <% } %>
             </td>
         </tr>
         <tr>
             <td colspan="2" class="submit">
-                <input type="submit" value="Sign Up">
+                <input type="submit" name="reg" value="Sign Up">
 
             </td>
 
