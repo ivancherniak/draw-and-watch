@@ -7,7 +7,7 @@
     <style><%@include file="styles/commonStyle.css"%></style>
 </head>
 <body>
-<form method="post">
+<form action="/app/register" method="post">
     <table>
         <tr>
             <th>
@@ -19,7 +19,11 @@
             <td>
                 <input type="text" name="name">
                 <br>
-                <span class="errorMsg">${msg}</span>
+                <% if(request.getAttribute("invalidName") != null) { %>
+                        <span class="errorMsg">
+                            <%=request.getAttribute("invalidName")%>
+                        </span>
+                <% } %>
             </td>
         </tr>
         <tr><td>Login</td></tr>
@@ -27,7 +31,11 @@
             <td>
                 <input type="text" name="login">
                 <br>
-                <span class="errorMsg">error text</span>
+                <% if(request.getAttribute("invalidLogin") != null) { %>
+                <span class="errorMsg">
+                            <%=request.getAttribute("invalidLogin")%>
+                        </span>
+                <% } %>
             </td>
         </tr>
         <tr><td>Password</td></tr>
@@ -35,15 +43,23 @@
             <td>
                 <input type="password" name="password">
                 <br>
-                <span class="errorMsg">error text</span>
+                <% if(request.getAttribute("invalidPassword") != null) { %>
+                <span class="errorMsg">
+                            <%=request.getAttribute("invalidPassword")%>
+                        </span>
+                <% } %>
             </td>
         </tr>
         <tr><td>Repeat Password</td></tr>
         <tr>
             <td>
-                <input type="assword" name="repeatPassword">
+                <input type="password" name="repeatPassword">
                 <br>
-                <span class="errorMsg">error text</span>
+                <% if(request.getAttribute("passwordsDontMatch") != null) { %>
+                <span class="errorMsg">
+                            <%=request.getAttribute("passwordsDontMatch")%>
+                        </span>
+                <% } %>
             </td>
         </tr>
         <tr>
@@ -52,6 +68,11 @@
             </td>
         </tr>
     </table>
+    <% if(request.getAttribute("SQLError") != null) { %>
+    <span class="errorMsg">
+        <%=request.getAttribute("SQLError")%>
+    </span>
+    <% } %>
 </form>
 </body>
 </html>

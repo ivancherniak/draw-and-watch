@@ -26,14 +26,13 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="homeController" class="application.controller.HomeController">
+    <bean id="baseDAO" class="DAOImpl.BaseDAO" abstract="true">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
-        <property name="userDAO" ref="userDAOImpl"/>
     </bean>
 
-    <bean id="userDAOImpl" class="DAOImpl.UserDAOImpl">
+    <!--<bean id="userDAOImpl" class="DAOImpl.UserDAOImpl">
         <constructor-arg ref="jdbcTemplate"/>
-    </bean>
+    </bean>-->
 
     <mvc:resources mapping="/static/**" location="static/"/>
     <mvc:annotation-driven/>
