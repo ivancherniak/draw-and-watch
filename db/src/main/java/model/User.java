@@ -29,23 +29,11 @@ public class User {
 		return password.orElseGet(String::new);
 	}
 
-	public boolean isValid(ModelMap model) {
-		if (name.orElseGet(String::new).length() == 0) {
-			model.addAttribute("invalidName", "Name should not be empty");
-			return false;
-		}
-		if (login.orElseGet(String::new).length() == 0) {
-			model.addAttribute("invalidLogin", "Login should not be empty");
-			return false;
-		}
-		if (password.orElseGet(String::new).length() == 0) {
-			model.addAttribute("invalidPassword", "Login should not be empty");
-			return false;
-		}
-		if (!password.get().equals(repeatPassword.orElseGet(String::new))) {
-			model.addAttribute("passwordsDontMatch", "Passwords should be equal");
-			return false;
-		}
-		return true;
+	public String getRepeatPassword() {
+		return repeatPassword.orElseGet(String::new);
+	}
+
+	public void setName(String name) {
+		this.name = Optional.ofNullable(name);
 	}
 }

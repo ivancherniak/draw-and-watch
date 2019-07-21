@@ -67,4 +67,18 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 			//if (resultSet != null) resultSet.close();
 		}
 	}
+
+	public boolean isUserExists(User user, ModelMap model) throws SQLException {
+		statement = jdbcTemplate.getDataSource().getConnection().prepareStatement(Statements.SELECT_USER);
+		statement.setString(1, user.getLogin());
+		statement.setString(2, user.getPassword());
+		resultSet = statement.executeQuery();
+		if (resultSet.next()) {
+			user.setName(resultSet.getString(2));
+			return true;
+		} else {
+			model.addAttribute("invalidUser", "Incorrect login or password");
+			return false;
+		}
+	}
 }

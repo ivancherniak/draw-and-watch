@@ -7,7 +7,7 @@
     <style><%@include file="styles/signStyle.css"%></style>
 </head>
 <body>
-<form method="post">
+<form action="signin" method="post">
     <table>
         <tr>
             <th>
@@ -19,7 +19,11 @@
             <td>
                 <input type="text" name="login">
                 <br>
-                <span class="errorMsg">error text</span>
+                <% if(request.getAttribute("invalidLogin") != null) { %>
+                <span class="errorMsg">
+                    <%=request.getAttribute("invalidLogin")%>
+                </span>
+                <% } %>
             </td>
         </tr>
         <tr><td>Password</td></tr>
@@ -27,7 +31,11 @@
             <td>
                 <input type="password" name="password">
                 <br>
-                <span class="errorMsg">error text</span>
+                <% if(request.getAttribute("invalidPassword") != null) { %>
+                <span class="errorMsg">
+                    <%=request.getAttribute("invalidPassword")%>
+                </span>
+                <% } %>
             </td>
         </tr>
         <tr>
@@ -35,7 +43,21 @@
                 <input type="submit" value="Sign In">
             </td>
         </tr>
-        <tr><td class="ref"><a href="/draw_and_watch_war_exploded/registration">Sign up</a></td></tr>
+        <tr><td class="ref"><a href="app/registration">Sign up</a></td></tr>
+        <% if(request.getAttribute("SQLError") != null) { %>
+        <tr><td colspan="2">
+            <span class="errorMsg">
+                <%=request.getAttribute("SQLError")%>
+            </span>
+        </td></tr>
+        <% } %>
+        <% if(request.getAttribute("invalidUser") != null) { %>
+        <tr><td colspan="2">
+            <span class="errorMsg">
+                <%=request.getAttribute("invalidUser")%>
+            </span>
+        </td></tr>
+        <% } %>
     </table>
 </form>
 </body>
