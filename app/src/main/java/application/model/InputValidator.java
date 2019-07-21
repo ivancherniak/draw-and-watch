@@ -9,8 +9,8 @@ public class InputValidator {
 			model.addAttribute("invalidLogin", "Login should not be empty");
 			return false;
 		}
-		if (user.getLogin().length() == 0) {
-			model.addAttribute("invalidPassword", "Login should not be empty");
+		if (user.getPassword().length() == 0) {
+			model.addAttribute("invalidPassword", "Password should not be empty");
 			return false;
 		}
 		return true;
