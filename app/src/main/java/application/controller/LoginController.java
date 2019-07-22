@@ -9,11 +9,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.sql.SQLException;
 
 
 @Controller
+@SessionAttributes(value = "loggedUser")
 public class LoginController {
 	private UserDAOImpl userDAO;
 	private InputValidator validator;

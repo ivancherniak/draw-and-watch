@@ -18,12 +18,11 @@
             <td class="path"><a href="#">home</a>/</td>
             <td class="account">
                 <a href="#">
-                    <% if (request.getAttribute("loggedUser") != null) { %>
-                    ${loggedUser.name}
-                    <%--<%= ((User) request.getAttribute("loggedUser")).getName() %>--%>
+                    <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                    <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
                     <% } %>
                 </a>
-                <a href="#">Paint now</a>
+                <a href="/app/canvas">Paint now</a>
                 <a href="#">Logout</a>
             </td>
         </tr>

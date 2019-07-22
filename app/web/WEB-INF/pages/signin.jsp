@@ -43,7 +43,7 @@
                 <input type="submit" value="Sign In">
             </td>
         </tr>
-        <tr><td class="ref"><a href="app/registration">Sign up</a></td></tr>
+        <tr><td class="ref"><a href="/app/registration">Sign up</a></td></tr>
         <% if(request.getAttribute("SQLError") != null) { %>
         <tr><td colspan="2">
             <span class="errorMsg">

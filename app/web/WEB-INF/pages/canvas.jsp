@@ -1,3 +1,4 @@
+<%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -19,7 +20,11 @@
                 <a href="#">draw</a>/
             </td>
             <td class="account">
-                <a href="#">Username</a>
+                <a href="#">
+                    <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                    <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
+                    <% } %>
+                </a>
                 <a href="#">Paint now</a>
                 <a href="#">Logout</a>
             </td>
