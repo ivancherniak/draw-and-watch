@@ -30,18 +30,27 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
-	public String submit(@ModelAttribute("user") User user, ModelMap model) {
-		if (validator.isValidLoginData(user, model)) {
-			try {
-				if (userDAO.isUserExists(user, model)) {
-					model.put("loggedUser", user);
-					return "home";
-				}
-			} catch (SQLException e) {
-				model.addAttribute("SQLError", "Error while trying to register user. <br>Please try again");
-				// TODO: 21.07.2019 add logger
+	public String doLogin(@ModelAttribute("user") User user, ModelMap model) {
+		try {
+			if (validator.isValidLoginData(user, model) && userDAO.isUserExists(user, model)) {
+				model.put("loggedUser", user);
+				return "home";
 			}
+		} catch (SQLException e) {
+			model.addAttribute("SQLError", "Error while trying to register user. <br>Please try again");
+			// TODO: 21.07.2019 add logger
 		}
+		return "signin";
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String doLogout(SessionStatus status) {
+		status.setComplete();
+		return "home";
+	}
+
+	@RequestMapping(value = "/signin", method = RequestMethod.GET)
+	public String goToSignin() {
 		return "signin";
 	}
 }

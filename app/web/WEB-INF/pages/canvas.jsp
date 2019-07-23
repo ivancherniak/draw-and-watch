@@ -15,9 +15,9 @@
     <table>
         <tr>
             <td class="path">
-                <a href="#">home</a>/
+                <a href="/app/home">home</a>/
                 <a href="#">profile</a>/
-                <a href="#">draw</a>/
+                <a href="/app/canvas">draw</a>/
             </td>
             <td class="account">
                 <a href="#">
@@ -25,8 +25,12 @@
                     <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
                     <% } %>
                 </a>
-                <a href="#">Paint now</a>
-                <a href="#">Logout</a>
+                <a href="/app/<%= request.getSession().getAttribute("loggedUser") != null ? "canvas" : "signin"%>">Paint now</a>
+                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                <a href="/app/logout">Logout</a>
+                <% } else { %>
+                <a href="/app/signin">Login</a>
+                <% } %>
             </td>
         </tr>
     </table>

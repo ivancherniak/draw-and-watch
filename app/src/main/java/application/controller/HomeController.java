@@ -31,12 +31,7 @@ public class HomeController {
 		return "signin";
 	}
 
-	@RequestMapping(value = "/registration", method = RequestMethod.GET)
-	public String goToRegistration(ModelMap model) {
-		model.addAttribute("msg", "hello test");
-		//model.addAttribute("user", new User());
-		return "registration";
-	}
+
 
 	@RequestMapping(value = "/jdbc", method = RequestMethod.GET)
 	public String jdbcTest(ModelMap model) {
