@@ -54,3 +54,8 @@ function init() {
     });
     printBrash();
 }
+
+function to_image() {
+    document.getElementById('imgId')
+        .setAttribute('value', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+}

@@ -48,6 +48,8 @@
 
     <bean id="inputValidator" class="application.model.InputValidator"/>
 
+    <bean id="canvasController" class="application.controller.CanvasController"/>
+
     <mvc:resources mapping="/static/**" location="static/"/>
     <mvc:annotation-driven/>
 </beans>

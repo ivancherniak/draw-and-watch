@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
 @Controller
@@ -15,5 +16,12 @@ public class CanvasController {
 	public String goToCanvas() {
 
 		return "canvas";
+	}
+
+	@RequestMapping(value = "/savefile", method = RequestMethod.POST)
+	public String saveImage(HttpServletRequest request, ModelMap model) {
+		String imgBase64 = request.getParameter("imageBase64Value");
+		model.addAttribute("imgBase64", imgBase64);
+		return "jdbc-test";
 	}
 }

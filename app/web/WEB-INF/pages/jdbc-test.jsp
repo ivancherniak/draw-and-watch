@@ -8,6 +8,7 @@
 </head>
 <body>
 <p>User-schema: <c:out value="${result}"/> </p>
+<img src="<c:out value="${imgBase64}"/>">
 
 </body>
 </html>

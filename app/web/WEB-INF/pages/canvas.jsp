@@ -63,7 +63,8 @@
         </div>
     </div>
     <div class="brushWidth">
-        <form>
+        <form id="upload_form" method="post" action="savefile" onsubmit="to_image()">
+            <input type="hidden" id="imgId" name="imageBase64Value" >
             <input type="submit" value="Save">
         </form>
         <div class="scroller">
