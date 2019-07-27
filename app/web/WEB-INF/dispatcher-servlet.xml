@@ -51,6 +51,10 @@
 
     <bean id="canvasController" class="application.controller.CanvasController"/>
 
+    <bean id="profileController" class="application.controller.ProfileController">
+        <property name="userDAO" ref="userDAOImpl"/>
+    </bean>
+
     <mvc:resources mapping="/static/**" location="static/"/>
     <mvc:annotation-driven/>
 </beans>

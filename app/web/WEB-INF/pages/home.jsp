@@ -15,13 +15,13 @@
     <h1>Header</h1>
     <table>
         <tr>
-            <td class="path"><a href="#">home</a>/</td>
+            <td class="path"><a href="/app/home">home</a>/</td>
             <td class="account">
-                <a href="#">
-                    <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                <a href="/app/profile?login=<%=((User) request.getSession().getAttribute("loggedUser")).getLogin()%>">
                     <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
-                    <% } %>
                 </a>
+                <% } %>
                 <a href="/app/canvas">Paint now</a>
                 <% if (request.getSession().getAttribute("loggedUser") != null) { %>
                 <a href="/app/logout">Logout</a>

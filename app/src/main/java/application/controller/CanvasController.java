@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class CanvasController {
 	@RequestMapping(value = "/canvas", method = RequestMethod.GET)
 	public String goToCanvas(ModelMap model) {
-		return model.containsKey("loggedUser") ? "canvas" : "signin";
+		return model.containsKey("loggedUser") ? "canvas" : "redirect:/signin";
 	}
 
 	@RequestMapping(value = "/savefile", method = RequestMethod.POST)

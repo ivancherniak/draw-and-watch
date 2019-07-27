@@ -1,6 +1,7 @@
 .profile td {
 	height: 150px;
 	width: 150px;
+	vertical-align: top;
 }
 
 img {
@@ -17,12 +18,17 @@ td input {
 	background-color: #3f5c9b;
 	border: none;
 	font-size: inherit;
-	width: 150px;
+	width: 180px;
 	height: 30px;
 	margin: 0 0 0 10px;
 	border-radius: 5px;
 }
 
+td input:hover {
+	cursor: pointer;
+}
+
 .username td {
 	height: 0;
+	text-align: center;
 }

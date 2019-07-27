@@ -1,3 +1,4 @@
+<%@ page import="model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,13 +13,21 @@
     <table>
         <tr>
             <td class="path">
-                <a href="#">home</a>/
-                <a href="#">profile</a>/
+                <a href="/app/home">home</a>/
+                <a href="/app/profile?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">profile</a>/
             </td>
             <td class="account">
-                <a href="#">Username</a>
-                <a href="#">Paint now</a>
-                <a href="#">Logout</a>
+                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                <a href="/app/profile?login=<%=((User) request.getSession().getAttribute("loggedUser")).getLogin()%>">
+                    <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
+                </a>
+                <% } %>
+                <a href="/app/canvas">Paint now</a>
+                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                <a href="/app/logout">Logout</a>
+                <% } else { %>
+                <a href="/app/signin">Login</a>
+                <% } %>
             </td>
         </tr>
     </table>
@@ -31,13 +40,21 @@
             <table>
                 <tr>
                     <td><img src="static/profilePhotos/photo.png"></td>
+                    <% if (!((User) request.getAttribute("userProfile")).getLogin().equals(((User) request.getSession().getAttribute("loggedUser")).getLogin())) { %>
                     <td>
-                        <form>
-                            <input type="submit" value="Add to favourites">
-                        </form>
+                        <% if ((boolean) request.getAttribute("isProfileInFavourites")) { %>
+                        <a href="deleteFromFavourites?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">
+                            <input type="button" value="Delete from favourites">
+                        </a>
+                        <% } else { %>
+                        <a href="addToFavourites?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">
+                            <input type="button" value="Add to favourites">
+                        </a>
+                        <% } %>
                     </td>
+                    <% } %>
                 </tr>
-                <tr class="username"><td>Username</td></tr>
+                <tr class="username"><td><%=((User) request.getAttribute("userProfile")).getName()%></td></tr>
             </table>
         </div>
     </div>

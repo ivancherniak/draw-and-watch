@@ -81,8 +81,32 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 
 	@Override
 	public List<User> getFavouriteProfiles(User user) throws SQLException {
-		statement = jdbcTemplate.getDataSource().getConnection().prepareStatement(Statements.GET_FAVOURITE_PROFILES_BY__USER_LOGIN);
+		statement = jdbcTemplate.getDataSource().getConnection().prepareStatement(Statements.GET_FAVOURITE_PROFILES_BY_USER_LOGIN);
 		statement.setString(1, user.getLogin());
 		return parseUsers(statement.executeQuery());
+	}
+
+	@Override
+	public User getUserProfile(String login) throws SQLException {
+		statement = jdbcTemplate.getDataSource().getConnection().prepareStatement(Statements.GET_USER_DATA_BY_LOGIN);
+		statement.setString(1, login);
+		List<User> list = parseUsers(statement.executeQuery());
+		return list == null || list.size() == 0 ? null : list.get(0);
+	}
+
+	@Override
+	public void addProfileToFavourites(String login, String likes) throws SQLException {
+		statement = jdbcTemplate.getDataSource().getConnection().prepareStatement(Statements.ADD_PROFILE_TO_FAVOURITES);
+		statement.setString(1, login);
+		statement.setString(2, likes);
+		statement.execute();
+	}
+
+	@Override
+	public void deleteProfileFromFavourites(String login, String likes) throws SQLException {
+		statement = jdbcTemplate.getDataSource().getConnection().prepareStatement(Statements.DELETE_PROFILE_FROM_FAVOURITES);
+		statement.setString(1, login);
+		statement.setString(2, likes);
+		statement.execute();
 	}
 }

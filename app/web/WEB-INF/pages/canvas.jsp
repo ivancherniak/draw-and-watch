@@ -16,11 +16,11 @@
         <tr>
             <td class="path">
                 <a href="/app/home">home</a>/
-                <a href="#">profile</a>/
+                <a href="/app/profile?login=<%=((User) request.getSession().getAttribute("loggedUser")).getLogin()%>">profile</a>/
                 <a href="/app/canvas">draw</a>/
             </td>
             <td class="account">
-                <a href="#">
+                <a href="/app/profile?login=<%=((User) request.getSession().getAttribute("loggedUser")).getLogin()%>">
                     <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
                 </a>
                 <a href="/app/canvas">Paint now</a>

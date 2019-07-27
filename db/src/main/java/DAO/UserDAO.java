@@ -11,4 +11,7 @@ public interface UserDAO {
 	boolean registerNewUser(User user, ModelMap model) throws SQLException;
 	boolean isUserExists(User user, ModelMap model) throws SQLException;
 	List<User> getFavouriteProfiles(User user) throws SQLException;
+	User getUserProfile(String login) throws SQLException;
+	void addProfileToFavourites(String login, String likes) throws SQLException;
+	void deleteProfileFromFavourites(String login, String likes) throws SQLException;
 }
