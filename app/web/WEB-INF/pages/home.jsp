@@ -22,7 +22,7 @@
                     <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
                     <% } %>
                 </a>
-                <a href="/app/<%= request.getSession().getAttribute("loggedUser") != null ? "canvas" : "signin"%>">Paint now</a>
+                <a href="/app/canvas">Paint now</a>
                 <% if (request.getSession().getAttribute("loggedUser") != null) { %>
                 <a href="/app/logout">Logout</a>
                 <% } else { %>
@@ -33,42 +33,44 @@
     </table>
 </div>
 <div class="content">
+    <%
+        List <User> list = (List<User>) request.getAttribute("favourites");
+        if (list != null && list.size() != 0) {
+    %>
     <h3>Favourite profiles</h3>
     <hr>
     <div class="profile">
+        <% for (User user : list) { %>
         <div>
-            <a href="#">
+            <a href="/app/profile?login=<%=user.getLogin()%>">
                 <p><img src="static/profilePhotos/photo.png"/><p>
-                Username
+                <%=user.getLogin()%>
             </a>
         </div>
-        <div>
-            <a href="#">
-                <p><img src="static/profilePhotos/photo.png"><p>
-                Username
-            </a>
-        </div>
-        <div>
-            <a href="#">
-                <p><img src="static/profilePhotos/photo.png"><p>
-                Username
-            </a>
-        </div>
+        <% } %>
     </div>
+    <% } %>
     <h3>All profiles</h3>
     <hr>
+    <% if (request.getAttribute("SQLError") != null) { %>
+    <span class="errorMsg"><%=request.getAttribute("SQLError")%></span>
+    <% } else { %>
     <div class="profile">
-        <%  List<User> users = (List<User>) request.getAttribute("users");
-            if (users != null) {
-                for (User user: (List<User>) request.getAttribute("users")) { %>
+        <%
+            List<User> users = (List<User>) request.getAttribute("allUsers");
+            if (users.size() == 0) { %>
+        There are no users
+        <% } else {
+            	for (User user: (List<User>) request.getAttribute("allUsers")) { %>
         <div>
-            <a href="#">
+            <a href="/app/profile?login=<%=user.getLogin()%>">
                 <p><img src="static/profilePhotos/photo.png"><p>
                 <%= user.getName() %>
             </a>
         </div>
         <% }} %>
     </div>
+    <% } %>
 </div>
 </body>
 </html>

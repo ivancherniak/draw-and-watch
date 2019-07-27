@@ -29,11 +29,6 @@ td input {
 	padding: 2px;
 }
 
-.errorMsg {
-	color: red;
-	font-size: 15px;
-}
-
 .submit {
 	text-align: right;
 }

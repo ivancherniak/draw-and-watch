@@ -73,3 +73,8 @@ h3 {
 .profile p {
 	margin: 0;
 }
+
+.errorMsg {
+	color: red;
+	font-size: 15px;
+}

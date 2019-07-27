@@ -13,30 +13,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl extends BaseDAO implements UserDAO {
+	@Override
+	public List<User> getAllUsers() throws SQLException {
+		return parseUsers(jdbcTemplate
+				.getDataSource()
+				.getConnection()
+				.prepareStatement(Statements.GET_ALL_USERS)
+				.executeQuery());
+	}
 
-	public List<User> getAllUsers() {
+	private List<User> parseUsers(ResultSet resultSet) throws SQLException {
 		List<User> list = new ArrayList<>();
-		try {
-			PreparedStatement statement = jdbcTemplate.getDataSource().getConnection().prepareStatement(Statements.GET_ALL_USERS);
-			list = parseUser(statement.executeQuery());
-		} catch (SQLException e) {
-			e.printStackTrace();
+		while (resultSet.next()) {
+			list.add(new User(
+					resultSet.getString(2),
+					resultSet.getString(1),
+					null, null
+			));
 		}
 		return list;
 	}
-
-	private List<User> parseUser(ResultSet resultSet) throws SQLException {
-		List<User> list = new ArrayList<>();
-		/*while (resultSet.next()) {
-			list.add(new User(
-					resultSet.getString(1),
-					resultSet.getString(2),
-					resultSet.getString(3)
-			));
-		}*/
-		return list;
-	}
-
+	@Override
 	public boolean registerNewUser(User user, ModelMap model) throws SQLException {
 		if (isUniqueLogin(user, model)) {
 			try {
@@ -67,7 +64,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 			//if (resultSet != null) resultSet.close();
 		}
 	}
-
+	@Override
 	public boolean isUserExists(User user, ModelMap model) throws SQLException {
 		statement = jdbcTemplate.getDataSource().getConnection().prepareStatement(Statements.SELECT_USER);
 		statement.setString(1, user.getLogin());
@@ -80,5 +77,12 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 			model.addAttribute("invalidUser", "Incorrect login or password");
 			return false;
 		}
+	}
+
+	@Override
+	public List<User> getFavouriteProfiles(User user) throws SQLException {
+		statement = jdbcTemplate.getDataSource().getConnection().prepareStatement(Statements.GET_FAVOURITE_PROFILES_BY__USER_LOGIN);
+		statement.setString(1, user.getLogin());
+		return parseUsers(statement.executeQuery());
 	}
 }

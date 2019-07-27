@@ -32,6 +32,7 @@
 
     <bean id="homeController" class="application.controller.HomeController">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="userDAO" ref="userDAOImpl"/>
     </bean>
 
     <bean id="userDAOImpl" class="DAOImpl.UserDAOImpl" parent="baseDAO"/>

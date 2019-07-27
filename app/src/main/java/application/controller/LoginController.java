@@ -34,7 +34,7 @@ public class LoginController {
 		try {
 			if (validator.isValidLoginData(user, model) && userDAO.isUserExists(user, model)) {
 				model.put("loggedUser", user);
-				return "home";
+				return "redirect:/home";
 			}
 		} catch (SQLException e) {
 			model.addAttribute("SQLError", "Error while trying to register user. <br>Please try again");
@@ -45,8 +45,8 @@ public class LoginController {
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String doLogout(SessionStatus status) {
-		status.setComplete();
-		return "home";
+		status.setComplete(); 
+		return "redirect:/home";
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)

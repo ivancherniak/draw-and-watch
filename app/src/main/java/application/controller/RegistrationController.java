@@ -34,7 +34,7 @@ public class RegistrationController {
 
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String goToRegistration(ModelMap model) {
-		model.put("loggedUser", null);
+		//model.put("loggedUser", null);
 		//model.addAttribute("user", new User());
 		return "registration";
 	}
@@ -45,7 +45,7 @@ public class RegistrationController {
 		try {
 			if (validator.isValidRegistrationData(user, model) && !userDAO.registerNewUser(user, model)) {
 				model.put("loggedUser", user);
-				return "home";
+				return "redirect:/home";
 			}
 		} catch (SQLException e) {
 			model.addAttribute("SQLError", "Error while trying to register user. <br>Please try again");
