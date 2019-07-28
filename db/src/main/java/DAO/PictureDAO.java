@@ -17,4 +17,6 @@ public interface PictureDAO {
     void addCommentToPicture(long pictureId, String login, String comment) throws SQLException;
     Long getLastCommentForPicture(long pictureId) throws SQLException;
     List<Comment> getCommentsForPicture(long pictureId) throws SQLException;
+    void likeThePicture(long pictureId, String login) throws SQLException;
+    int countLikes(long pictureId) throws SQLException;
 }

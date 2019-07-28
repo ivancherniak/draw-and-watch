@@ -1,5 +1,5 @@
 package application.model;
-
+/*
 import model.User;
 import org.springframework.ui.ModelMap;
 
@@ -28,4 +28,4 @@ public class InputValidator {
 		}
 		return true;
 	}
-}
+}*/

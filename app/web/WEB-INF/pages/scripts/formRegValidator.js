@@ -14,7 +14,7 @@ $(function () {
             login: "Please enter your login",
             password: "Please enter a password",
             repeatPassword: {
-                required: "Please repeate a password",
+                required: "Please repeat a password",
                 equalTo: "Passwords should be equal"
             }
         },

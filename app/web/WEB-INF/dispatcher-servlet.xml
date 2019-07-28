@@ -43,15 +43,12 @@
 
     <bean id="registrationController" class="application.controller.RegistrationController">
         <property name="userDAO" ref="userDAOImpl"/>
-        <property name="validator" ref="inputValidator"/>
     </bean>
 
     <bean id="loginController" class="application.controller.LoginController">
         <property name="userDAO" ref="userDAOImpl"/>
-        <property name="validator" ref="inputValidator"/>
     </bean>
 
-    <bean id="inputValidator" class="application.model.InputValidator"/>
 
     <bean id="canvasController" class="application.controller.CanvasController">
         <property name="pictureDAO" ref="pictureDAOImpl"/>

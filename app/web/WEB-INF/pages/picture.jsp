@@ -16,9 +16,9 @@
     <table>
         <tr>
             <td class="path">
-                <a href="#">home</a>/
-                <a href="#">profile</a>/
-                <a href="#">picture</a>/
+                <a href="/app/home">home</a>/
+                <a href="/app/profile?login=<%=((Picture) request.getAttribute("picture")).getPaintedBy().getLogin()%>">profile</a>/
+                <a href="/app/picture?id=<%=((Picture) request.getAttribute("picture")).getId()%>">picture</a>/
             </td>
             <td class="account">
                 <% if (request.getSession().getAttribute("loggedUser") != null) { %>
@@ -43,9 +43,10 @@
     <table>
         <tr>
             <td class="info"><%=((Picture) request.getAttribute("picture")).getCreatedWhen()%></td>
-            <td rowspan="2">Likes: 5</td>
+            <td rowspan="2">Likes: <%=request.getAttribute("likes")%></td>
             <td rowspan="2">
-                <form>
+                <form action="likeIt" method="post">
+                    <input type="hidden" name="pictureId" value="<%=((Picture) request.getAttribute("picture")).getId()%>">
                     <input type="submit" value="Like it">
                 </form>
             </td>

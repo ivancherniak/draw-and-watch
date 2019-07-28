@@ -148,4 +148,40 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
         }
         return list;
     }
+
+    private boolean isPictureLiked(long pictureId, String login) throws SQLException {
+        statement = connection.prepareStatement(Statements.IS_PICTURE_LIKED);
+        statement.setLong(1, pictureId);
+        statement.setString(2, login);
+        return statement.executeQuery().next();
+    }
+
+    @Override
+    public void likeThePicture(long pictureId, String login) throws SQLException {
+        if (connection == null || connection.isClosed()) getConnection();
+        try {
+            statement = isPictureLiked(pictureId, login)
+                    ? connection.prepareStatement(Statements.REMOVE_LIKE)
+                    : connection.prepareStatement(Statements.ADD_LIKE);
+            statement.setLong(1, pictureId);
+            statement.setString(2, login);
+            statement.execute();
+        } finally {
+            statement.close();
+        }
+    }
+
+    @Override
+    public int countLikes(long pictureId) throws SQLException {
+        if (connection == null || connection.isClosed()) getConnection();
+        try {
+            statement = connection.prepareStatement(Statements.COUNT_LIKES);
+            statement.setLong(1, pictureId);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        } finally {
+            connection.close();
+        }
+    }
 }

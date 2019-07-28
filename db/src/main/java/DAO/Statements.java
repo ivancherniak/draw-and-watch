@@ -17,4 +17,8 @@ public class Statements {
 	public static final String ADD_COMMENT_TO_PICTURE = "INSERT INTO comments VALUES(id_generator.NEXTVAL, ?, ?, ?, ?)";
 	public static final String GET_LAST_COMMENT_FOR_PICTURE = "SELECT comment_id FROM comments WHERE connect_by_isleaf = 1 START WITH picture_id = ? CONNECT BY PRIOR comment_id = parent_id";
 	public static final String GET_COMMENTS_FOR_PICTURE = "SELECT c.comment_id, c.picture_id, u.login, u.name, c.comment_data FROM comments c JOIN users u ON u.login = c.login WHERE c.picture_id = ?";
+	public static final String IS_PICTURE_LIKED = "SELECT 1 FROM picture_likes WHERE picture_id = ? and login = ?";
+	public static final String REMOVE_LIKE = "DELETE FROM picture_likes WHERE picture_id = ? and login = ?";
+	public static final String ADD_LIKE = "INSERT INTO picture_likes VALUES(?, ?)";
+	public static final String COUNT_LIKES = "SELECT count(*) FROM picture_likes WHERE picture_id = ?";
 }

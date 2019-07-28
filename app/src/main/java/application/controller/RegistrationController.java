@@ -1,7 +1,7 @@
 package application.controller;
 
 import DAOImpl.UserDAOImpl;
-import application.model.InputValidator;
+//import application.model.InputValidator;
 import model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,11 +17,11 @@ import java.sql.SQLException;
 @SessionAttributes(value = "loggedUser")
 public class RegistrationController {
 	private UserDAOImpl userDAO;
-	private InputValidator validator;
+	//private InputValidator validator;
 
-	public void setValidator(InputValidator validator) {
-		this.validator = validator;
-	}
+	//public void setValidator(InputValidator validator) {
+	//	this.validator = validator;
+	//}
 
 	public void setUserDAO(UserDAOImpl userDAO) {
 		this.userDAO = userDAO;
@@ -43,7 +43,7 @@ public class RegistrationController {
 	public String registerUser(@ModelAttribute("user") User user, ModelMap model) {
 		if (!model.containsKey("loggedUser")) model.put("loggedUser", null);
 		try {
-			if (validator.isValidRegistrationData(user, model) && !userDAO.registerNewUser(user, model)) {
+			if (!userDAO.registerNewUser(user, model)) {
 				model.put("loggedUser", user);
 				return "redirect:/home";
 			}
