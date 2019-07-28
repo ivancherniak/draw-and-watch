@@ -37,7 +37,7 @@ public class ProfileController {
 		try {
 			model.put("userProfile", userDAO.getUserProfile(login));
 			model.put("isProfileInFavourites", user == null ? false : userDAO.getFavouriteProfiles(user).size() != 0);
-			model.addAttribute("userPictures", pictureDAO.getPictureByUser(login));
+			model.put("userPictures", pictureDAO.getPictureByUser(login));
 		} catch (SQLException e) {
 			// TODO: 27.07.2019 add logger
 			return "redirect:/errorPage";

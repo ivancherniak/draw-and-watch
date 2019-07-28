@@ -42,7 +42,7 @@
             <table>
                 <tr>
                     <td><img src="static/profilePhotos/photo.png"></td>
-                    <% if (!((User) request.getAttribute("userProfile")).getLogin().equals(((User) request.getSession().getAttribute("loggedUser")).getLogin())) { %>
+                    <% if (request.getSession().getAttribute("loggedUser")!= null && !((User) request.getAttribute("userProfile")).getLogin().equals(((User) request.getSession().getAttribute("loggedUser")).getLogin())) { %>
                     <td>
                         <% if ((boolean) request.getAttribute("isProfileInFavourites")) { %>
                         <a href="deleteFromFavourites?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">
@@ -60,11 +60,12 @@
             </table>
         </div>
     </div>
+    <% List<Picture> pictures = (List<Picture>) request.getAttribute("userPictures");
+    if (pictures.size() != 0) { %>
     <h3>Pictures</h3>
     <hr>
     <div class="profile">
-        <% List<Picture> pictures = (List<Picture>)request.getAttribute("userPictures");
-            for (Picture picture : pictures) { %>
+        <% for (Picture picture : pictures) { %>
         <div>
             <a href="#">
                 <p><img src="<%=picture.getContent()%>"><p>
@@ -72,6 +73,7 @@
         </div>
         <%    } %>
     </div>
+    <% } %>
 </div>
 </body>
 </html>

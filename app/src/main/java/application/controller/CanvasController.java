@@ -42,6 +42,6 @@ public class CanvasController {
 			e.printStackTrace();
 			//TODO add logger
 		}
-		return "canvas";
+		return "redirect:/profile?login=" + ((User) model.get("loggedUser")).getLogin();
 	}
 }
