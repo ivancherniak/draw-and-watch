@@ -44,7 +44,7 @@
         <tr><td>Password</td></tr>
         <tr>
             <td>
-                <input type="password" name="password">
+                <input type="password" name="password" id="password">
                 <br>
                 <% if(request.getAttribute("invalidPassword") != null) { %>
                 <span class="errorMsg">

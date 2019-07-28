@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserDAOImpl extends BaseDAO implements UserDAO {
@@ -45,8 +46,8 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
 	}
 	@Override
 	public boolean registerNewUser(User user, ModelMap model) throws SQLException {
-		if (connection == null || connection.isClosed()) getConnection();
 		if (isUniqueLogin(user, model)) {
+			if (connection == null || connection.isClosed()) getConnection();
 			try {
 				statement = connection.prepareStatement(Statements.INSERT_NEW_USER);
 				statement.setString(1, user.getLogin());
