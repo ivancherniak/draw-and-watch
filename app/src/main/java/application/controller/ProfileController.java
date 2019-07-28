@@ -1,5 +1,6 @@
 package application.controller;
 
+import DAOImpl.PictureDAOImpl;
 import DAOImpl.UserDAOImpl;
 import model.User;
 import org.springframework.stereotype.Controller;
@@ -7,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 @Controller
@@ -14,8 +16,14 @@ import java.sql.SQLException;
 public class ProfileController {
 	private UserDAOImpl userDAO;
 
+	private PictureDAOImpl pictureDAO;
+
 	public void setUserDAO(UserDAOImpl userDAO) {
 		this.userDAO = userDAO;
+	}
+
+	public void setPictureDAO(PictureDAOImpl pictureDAO) {
+		this.pictureDAO = pictureDAO;
 	}
 
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -29,6 +37,7 @@ public class ProfileController {
 		try {
 			model.put("userProfile", userDAO.getUserProfile(login));
 			model.put("isProfileInFavourites", user == null ? false : userDAO.getFavouriteProfiles(user).size() != 0);
+			model.addAttribute("userPictures", pictureDAO.getPictureByUser(login));
 		} catch (SQLException e) {
 			// TODO: 27.07.2019 add logger
 			return "redirect:/errorPage";
