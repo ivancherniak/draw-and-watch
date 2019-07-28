@@ -10,7 +10,7 @@
     <script><%@include file="scripts/formValidator.js"%></script>
 </head>
 <body>
-<form action="signin" method="post">
+<form action="signin" method="post" name="loginForm">
     <table>
         <tr>
             <th>

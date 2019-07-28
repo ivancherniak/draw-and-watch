@@ -1,5 +1,5 @@
 $(function () {
-    $("form[name='login-form']").validate({
+    $("form[name='loginForm']").validate({
         rules: {
             login: "required",
             password: "required"

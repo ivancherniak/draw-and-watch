@@ -10,7 +10,7 @@
     <script><%@include file="scripts/formRegValidator.js"%></script>
 </head>
 <body>
-<form action="/app/registration" method="post">
+<form action="/app/registration" method="post" name="regForm">
     <table>
         <tr>
             <th>
