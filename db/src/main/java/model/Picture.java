@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Picture {
     private long id;
-    private String paintedBy;
+    private User paintedBy;
     private String content;
     private Date createdWhen;
 
@@ -16,12 +16,12 @@ public class Picture {
         this.id = id;
     }
 
-    public String getPaintedBy() {
-        return paintedBy;
+    public void setPaintedBy(User paintedBy) {
+        this.paintedBy = paintedBy;
     }
 
-    public void setPaintedBy(String paintedBy) {
-        this.paintedBy = paintedBy;
+    public User getPaintedBy() {
+        return paintedBy;
     }
 
     public String getContent() {
@@ -44,11 +44,11 @@ public class Picture {
 
     }
 
-    public Picture(long id, String paintedBy, Date createdWhen, String content) {
+    public Picture(long id, User paintedBy, Date createdWhen, String content) {
         this.id = id;
         this.paintedBy = paintedBy;
-        this.createdWhen = createdWhen;
         this.content = content;
-
+        this.createdWhen = createdWhen;
     }
+
 }

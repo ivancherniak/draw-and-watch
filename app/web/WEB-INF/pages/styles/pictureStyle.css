@@ -24,3 +24,11 @@ input {
 	height: 30px;
 	border-radius: 5px;
 }
+
+textarea {
+	width: 80%;
+	max-width: 80%;
+	margin: 5px 0;
+	height: 90px;
+}
+

@@ -37,7 +37,9 @@
 
     <bean id="userDAOImpl" class="DAOImpl.UserDAOImpl" parent="baseDAO"/>
 
-    <bean id="pictureDAOImpl" class="DAOImpl.PictureDAOImpl" parent="baseDAO"/>
+    <bean id="pictureDAOImpl" class="DAOImpl.PictureDAOImpl" parent="baseDAO">
+        <property name="userDAO" ref="userDAOImpl"/>
+    </bean>
 
     <bean id="registrationController" class="application.controller.RegistrationController">
         <property name="userDAO" ref="userDAOImpl"/>
@@ -57,6 +59,10 @@
 
     <bean id="profileController" class="application.controller.ProfileController">
         <property name="userDAO" ref="userDAOImpl"/>
+        <property name="pictureDAO" ref="pictureDAOImpl"/>
+    </bean>
+
+    <bean id="pictureController" class="application.controller.PictureController">
         <property name="pictureDAO" ref="pictureDAOImpl"/>
     </bean>
 

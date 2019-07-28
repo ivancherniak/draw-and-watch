@@ -67,7 +67,7 @@
     <div class="profile">
         <% for (Picture picture : pictures) { %>
         <div>
-            <a href="#">
+            <a href="/app/picture?id=<%=picture.getId()%>">
                 <p><img src="<%=picture.getContent()%>"><p>
             </a>
         </div>

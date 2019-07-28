@@ -2,8 +2,10 @@ package DAOImpl;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public abstract class BaseDAO {
 	protected JdbcTemplate jdbcTemplate;

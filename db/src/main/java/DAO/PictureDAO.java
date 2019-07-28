@@ -1,5 +1,6 @@
 package DAO;
 
+import model.Comment;
 import model.Picture;
 
 import java.io.IOException;
@@ -13,5 +14,7 @@ public interface PictureDAO {
     List<Picture> getFavoritesPictures(String userName) throws SQLException;
     void savePicture(String userName, long createdWhen, String content) throws SQLException;
     void deletePicture(long id) throws SQLException;
-
+    void addCommentToPicture(long pictureId, String login, String comment) throws SQLException;
+    Long getLastCommentForPicture(long pictureId) throws SQLException;
+    List<Comment> getCommentsForPicture(long pictureId) throws SQLException;
 }

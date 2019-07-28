@@ -14,4 +14,7 @@ public class Statements {
 	public static final String GET_PICTURE_BY_USER = "SELECT * FROM pictures WHERE painted_by = ?";
 	public static final String GET_USER_FAVORITES_PICTURES = "SELECT * from pictures WHERE picture_id IN (SELECT * FROM picture_likes WHERE login = ?)";
 	public static final String DELETE_PICTURE = "DELETE FROM pictures WHERE picture_id = ?";
+	public static final String ADD_COMMENT_TO_PICTURE = "INSERT INTO comments VALUES(id_generator.NEXTVAL, ?, ?, ?, ?)";
+	public static final String GET_LAST_COMMENT_FOR_PICTURE = "SELECT comment_id FROM comments WHERE connect_by_isleaf = 1 START WITH picture_id = ? CONNECT BY PRIOR comment_id = parent_id";
+	public static final String GET_COMMENTS_FOR_PICTURE = "SELECT c.comment_id, c.picture_id, u.login, u.name, c.comment_data FROM comments c JOIN users u ON u.login = c.login WHERE c.picture_id = ?";
 }
