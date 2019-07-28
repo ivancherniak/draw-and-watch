@@ -1,4 +1,6 @@
 <%@ page import="model.User" %>
+<%@ page import="model.Picture" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -61,21 +63,14 @@
     <h3>Pictures</h3>
     <hr>
     <div class="profile">
+        <% List<Picture> pictures = (List<Picture>)request.getAttribute("userPictures");
+            for (Picture picture : pictures) { %>
         <div>
             <a href="#">
-                <p><img src="static/profilePhotos/photo.png"><p>
+                <p><img src="<%=picture.getContent()%>"><p>
             </a>
         </div>
-        <div>
-            <a href="#">
-                <p><img src="static/profilePhotos/photo.png"><p>
-            </a>
-        </div>
-        <div>
-            <a href="#">
-                <p><img src="static/profilePhotos/photo.png"><p>
-            </a>
-        </div>
+        <%    } %>
     </div>
 </div>
 </body>
