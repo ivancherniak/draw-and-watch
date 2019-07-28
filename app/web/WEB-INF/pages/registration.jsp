@@ -5,6 +5,9 @@
     <title>Sing Up</title>
     <style><%@include file="styles/signStyle.css"%></style>
     <style><%@include file="styles/commonStyle.css"%></style>
+    <script src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+    <script><%@include file="scripts/formRegValidator.js"%></script>
 </head>
 <body>
 <form action="/app/registration" method="post">
