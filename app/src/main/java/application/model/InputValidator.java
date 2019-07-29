@@ -1,4 +1,5 @@
 package application.model;
+// TODO: 7/29/2019 REMOVE THIS FILE AND application.model PACKAGE
 /*
 import model.User;
 import org.springframework.ui.ModelMap;

@@ -1,47 +1,74 @@
 package application.controller;
 
 import DAOImpl.PictureDAOImpl;
-import model.Picture;
 import model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.io.IOException;
 import java.util.Date;
 import java.sql.SQLException;
 
+/**
+ * This class is used for handle events on Canvas page
+ */
 @Controller
 @SessionAttributes(value = "loggedUser")
 public class CanvasController {
-	private PictureDAOImpl pictureDAO;
+    /**
+     * PictureDAOImpl instance
+     */
+    private PictureDAOImpl pictureDAO;
 
-	public PictureDAOImpl getPictureDAO() {
-		return pictureDAO;
-	}
+    /**
+     * Getter for PictureDAOImpl instance
+     *
+     * @return instance of PictureDAOImpl
+     */
+    public PictureDAOImpl getPictureDAO() {
+        return pictureDAO;
+    }
 
-	public void setPictureDAO(PictureDAOImpl pictureDAO) {
-		this.pictureDAO = pictureDAO;
-	}
+    /**
+     * Setter for PictureDAOImpl instance
+     *
+     * @param pictureDAO PictureDAOImpl instance
+     */
+    public void setPictureDAO(PictureDAOImpl pictureDAO) {
+        this.pictureDAO = pictureDAO;
+    }
 
-	@RequestMapping(value = "/canvas", method = RequestMethod.GET)
-	public String goToCanvas(ModelMap model) {
-		return model.containsKey("loggedUser") ? "canvas" : "redirect:/signin";
-	}
+    /**
+     * Prints Canvas page. If a user is not logged in, then this method redirects to Signin page
+     *
+     * @param model
+     * @return name of a page to render
+     */
+    @RequestMapping(value = "/canvas", method = RequestMethod.GET)
+    public String goToCanvas(ModelMap model) {
+        return model.containsKey("loggedUser") ? "canvas" : "redirect:/signin";
+    }
 
-	@RequestMapping(value = "/savefile", method = RequestMethod.POST)
-	public String saveImage(HttpServletRequest request, ModelMap model) {
-		try {
-			pictureDAO.savePicture(((User) model.get("loggedUser")).getLogin(), new Date().getTime(), request.getParameter("imageBase64Value"));
-		} catch (SQLException e) {
-			e.printStackTrace();
-			//TODO add logger
-		}
-		return "redirect:/profile?login=" + ((User) model.get("loggedUser")).getLogin();
-	}
+    /**
+     * Saves painted image when "Save" button is been clicked. This method redirects to Profile page of logged user
+     *
+     * @param request request to server
+     * @param model
+     * @return name of a page to render
+     */
+    @RequestMapping(value = "/savefile", method = RequestMethod.POST)
+    public String saveImage(HttpServletRequest request, ModelMap model) {
+        User user = (User) model.get("loggedUser");
+        try {
+            pictureDAO.savePicture(user.getLogin(), new Date().getTime(), request.getParameter("imageBase64Value"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //TODO add logger
+        }
+        return "redirect:/profile?login=" + user.getLogin();
+    }
 }

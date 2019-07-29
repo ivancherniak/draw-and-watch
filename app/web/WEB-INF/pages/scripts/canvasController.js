@@ -8,13 +8,13 @@ function init() {
     canvas = document.getElementById("drawCanvas");
     context = canvas.getContext("2d");
 
-    let mouse = { 
-        x:0, 
-        y:0 
+    let mouse = {
+        x: 0,
+        y: 0
     };
     let draw = false;
-    
-    canvas.addEventListener("mousedown", function(e) {
+
+    canvas.addEventListener("mousedown", function (e) {
         context.strokeStyle = strokeStyle;
         context.lineWidth = document.getElementById("brushWidth").value;
         mouse.x = e.pageX - this.offsetLeft;
@@ -24,14 +24,14 @@ function init() {
         context.arc(mouse.x, mouse.y, context.lineWidth / 2, 0, 2 * Math.PI);
         context.stroke();
         points.push({
-            x: mouse.x, 
-            y: mouse.y, 
-            style: strokeStyle, 
+            x: mouse.x,
+            y: mouse.y,
+            style: strokeStyle,
             width: context.lineWidth / 2,
             action: actions
         });
     });
-    canvas.addEventListener("mousemove", function(e) {
+    canvas.addEventListener("mousemove", function (e) {
         if (draw == true) {
             mouse.x = e.pageX - this.offsetLeft;
             mouse.y = e.pageY - this.offsetTop;
@@ -40,15 +40,15 @@ function init() {
             context.stroke();
             context.closePath();
             points.push({
-                x: mouse.x, 
-                y: mouse.y, 
-                style: strokeStyle, 
+                x: mouse.x,
+                y: mouse.y,
+                style: strokeStyle,
                 width: context.lineWidth / 2,
                 action: actions
             });
         }
     });
-    document.addEventListener("mouseup", function(e) {
+    document.addEventListener("mouseup", function (e) {
         actions += draw;
         draw = false;
     });

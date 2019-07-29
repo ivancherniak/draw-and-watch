@@ -6,74 +6,114 @@ import model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * This class is used for handle events on Profile page
+ */
 @Controller
 @SessionAttributes(value = {"loggedUser", "errorMsg"})
 public class ProfileController {
-	private UserDAOImpl userDAO;
+    /**
+     * UserDAOImpl instance
+     */
+    private UserDAOImpl userDAO;
+    /**
+     * PictureDAOImpl instance
+     */
+    private PictureDAOImpl pictureDAO;
 
-	private PictureDAOImpl pictureDAO;
+    /**
+     * Setter for UserDAOImpl instance
+     *
+     * @param userDAO UserDAOImpl instance
+     */
+    public void setUserDAO(UserDAOImpl userDAO) {
+        this.userDAO = userDAO;
+    }
 
-	public void setUserDAO(UserDAOImpl userDAO) {
-		this.userDAO = userDAO;
-	}
+    /**
+     * Setter for PictureDAOImpl instance
+     *
+     * @param pictureDAO PictureDAOImpl instance
+     */
+    public void setPictureDAO(PictureDAOImpl pictureDAO) {
+        this.pictureDAO = pictureDAO;
+    }
 
-	public void setPictureDAO(PictureDAOImpl pictureDAO) {
-		this.pictureDAO = pictureDAO;
-	}
+    /**
+     * Prints Profile page
+     *
+     * @param login login of user to whom this profile belongs to
+     * @param model
+     * @return name of a page to render
+     */
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String goToProfile(@RequestParam(value = "login") String login, ModelMap model) {
+        User user = (User) model.get("loggedUser");
+        if (login == null || login.length() == 0) { // TODO: 7/29/2019 check this case. It may never happen
+            if (user == null) return "redirect:/errorPage";
+            login = user.getLogin();
+        }
+        try {
+            model.put("userProfile", userDAO.getUserProfile(login));
+            model.put("isProfileInFavourites", user != null && userDAO.getFavouriteProfiles(user).size() != 0); // TODO: 7/29/2019 wrong method, create new one for checking if profile is in favourites
+            model.put("userPictures", pictureDAO.getPicturesByUser(login));
+        } catch (SQLException e) {
+            // TODO: 27.07.2019 add logger
+            return "redirect:/errorPage";
+        }
+        return "profile";
+    }
 
-	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public String goToProfile(@RequestParam(value="login") String login, ModelMap model) {
-		User user = (User) model.get("loggedUser");
+    /**
+     * Adds profile to favourites and reloads Profile page. If the user is not logged in, then it redirects to Signin page
+     *
+     * @param login login of user whom this profile belongs to
+     * @param model
+     * @return name of a page to render
+     */
+    @RequestMapping(value = "/addToFavourites", method = RequestMethod.GET)
+    public String addToFavourites(@RequestParam(value = "login") String login, ModelMap model) {
+        //User user = (User) model.get("loggedUser"); // TODO: 7/29/2019 check the refactor
+        if (!model.containsKey("loggedUser")) return "redirect:/signin";
+        if (login == null || login.length() == 0)
+            return "redirect:/errorPage"; // TODO: 7/29/2019 check this case. It may never happen
+        try {
+            model.put("userProfile", userDAO.getUserProfile(login));
+            model.put("isProfileInFavourites", userDAO.getFavouriteProfiles((User) model.get("loggedUser")).size() != 0); // TODO: 7/29/2019 wrong method, create new one for checking if profile is in favourites
+            userDAO.addProfileToFavourites(((User) model.get("loggedUser")).getLogin(), login);
+        } catch (SQLException e) {
+            // TODO: 27.07.2019 add logger
+            return "redirect:/errorPage";
+        }
+        return "redirect:/profile?login=" + login;
+    }
 
-		if (login == null || login.length() == 0) {
-			if (user == null) return "redirect:/errorPage";
-			login = ((User) model.get("loggedUser")).getLogin();
-		}
-		try {
-			model.put("userProfile", userDAO.getUserProfile(login));
-			model.put("isProfileInFavourites", user == null ? false : userDAO.getFavouriteProfiles(user).size() != 0);
-			model.put("userPictures", pictureDAO.getPictureByUser(login));
-		} catch (SQLException e) {
-			// TODO: 27.07.2019 add logger
-			return "redirect:/errorPage";
-		}
-		return "profile";
-	}
+    /**
+     * Deletes profile from favourites and reloads Profile page. If the user is not logged in, then it redirects to Signin page
+     *
+     * @param login login of user whom this profile belongs to
+     * @param model
+     * @return name of a page to render
+     */
+    @RequestMapping(value = "/deleteFromFavourites", method = RequestMethod.GET)
+    public String deleteFromFavourites(@RequestParam(value = "login") String login, ModelMap model) {
+        //User user = (User) model.get("loggedUser"); // TODO: 7/29/2019 check the refactor
+        if (!model.containsKey("loggedUser")) return "redirect:/signin"; // TODO: 7/29/2019 probably never happen
+        if (login == null || login.length() == 0)
+            return "redirect:/errorPage"; // TODO: 7/29/2019 check this case. It may never happen
+        try {
+            model.put("userProfile", userDAO.getUserProfile(login));
+            model.put("isProfileInFavourites", userDAO.getFavouriteProfiles((User) model.get("loggedUser")).size() != 0); // TODO: 7/29/2019 wrong method, create new one for checking if profile is in favourites
+            userDAO.deleteProfileFromFavourites(((User) model.get("loggedUser")).getLogin(), login);
+        } catch (SQLException e) {
+            // TODO: 27.07.2019 add logger
+            return "redirect:/errorPage";
+        }
+        return "redirect:/profile?login=" + login;
+    }
 
-	@RequestMapping(value = "/addToFavourites", method = RequestMethod.GET)
-	public String addToFavourites(@RequestParam(value="login") String login, ModelMap model) {
-		User user = (User) model.get("loggedUser");
-		if (user == null) return "redirect:/signin";
-		if (login == null || login.length() == 0) return "redirect:/errorPage";
-		try {
-			model.put("userProfile", userDAO.getUserProfile(login));
-			model.put("isProfileInFavourites", userDAO.getFavouriteProfiles((User) model.get("loggedUser")).size() != 0);
-			userDAO.addProfileToFavourites(((User) model.get("loggedUser")).getLogin(), login);
-		} catch (SQLException e) {
-			// TODO: 27.07.2019 add logger
-			return "redirect:/errorPage";
-		}
-		return "redirect:/profile?login=" + login;
-	}
-
-	@RequestMapping(value = "/deleteFromFavourites", method = RequestMethod.GET)
-	public String deleteFromFavourites(@RequestParam(value="login") String login, ModelMap model) {
-		User user = (User) model.get("loggedUser");
-		if (user == null) return "redirect:/signin";
-		if (login == null || login.length() == 0) return "redirect:/errorPage";
-		try {
-			model.put("userProfile", userDAO.getUserProfile(login));
-			model.put("isProfileInFavourites", userDAO.getFavouriteProfiles((User) model.get("loggedUser")).size() != 0);
-			userDAO.deleteProfileFromFavourites(((User) model.get("loggedUser")).getLogin(), login);
-		} catch (SQLException e) {
-			// TODO: 27.07.2019 add logger
-			return "redirect:/errorPage";
-		}
-		return "redirect:/profile?login=" + login;
-	}
+    // TODO: 7/29/2019 probably it's better to join addToFavourites and deleteFromFavourites into one method the same way as in likeThePicture method. They contains the same logic
 }

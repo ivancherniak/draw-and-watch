@@ -6,7 +6,7 @@ function printBrash() {
     context.beginPath();
     context.clearRect(0, 0, w, h);
     context.strokeStyle = strokeStyle;
-    context.arc(w/2, h/2, document.getElementById("brushWidth").value, 0, 2 * Math.PI);
+    context.arc(w / 2, h / 2, document.getElementById("brushWidth").value, 0, 2 * Math.PI);
     context.stroke();
     context.fillStyle = strokeStyle;
     context.fill();

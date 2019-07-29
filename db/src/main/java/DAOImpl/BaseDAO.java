@@ -2,21 +2,41 @@ package DAOImpl;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
+/**
+ * This class contains common fields for all DAO implementations
+ */
 public abstract class BaseDAO {
-	protected JdbcTemplate jdbcTemplate;
-	protected PreparedStatement statement;
-	protected ResultSet resultSet;
+    /**
+     * JdbcTemplate instance
+     */
+    protected JdbcTemplate jdbcTemplate;
+    /**
+     * PreparedStatement instance
+     */
+    protected PreparedStatement statement;
+    /**
+     * ResultSet instance
+     */
+    protected ResultSet resultSet;
 
-	public JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}
+    /**
+     * Getter for jdbcTemplate
+     *
+     * @return JdbcTemplate instance
+     */
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
 
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+    /**
+     * Setter for jdbcTemplate
+     *
+     * @param jdbcTemplate JdbcTemplate instance
+     */
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 }

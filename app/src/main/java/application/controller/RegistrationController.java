@@ -1,7 +1,6 @@
 package application.controller;
 
 import DAOImpl.UserDAOImpl;
-//import application.model.InputValidator;
 import model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,47 +9,68 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
-
+// TODO: 7/29/2019 ADD PASSWORD ENCRYPTION
+/**
+ * This class is used for handle events on Registration page
+ */
 @Controller
 @SessionAttributes(value = "loggedUser")
 public class RegistrationController {
-	private UserDAOImpl userDAO;
-	//private InputValidator validator;
+    /**
+     * UserDAOImpl instance
+     */
+    private UserDAOImpl userDAO;
+    //private InputValidator validator;
 
-	//public void setValidator(InputValidator validator) {
-	//	this.validator = validator;
-	//}
+    //public void setValidator(InputValidator validator) {
+    //	this.validator = validator;
+    //}
 
-	public void setUserDAO(UserDAOImpl userDAO) {
-		this.userDAO = userDAO;
-	}
+    /**
+     * Setter for UserDAOImpl instance
+     *
+     * @param userDAO
+     */
+    public void setUserDAO(UserDAOImpl userDAO) {
+        this.userDAO = userDAO;
+    }
 
-	@ModelAttribute("Money")
-	public User getLoggedUser() {
-		return null; //or however you create a default
-	}
+    // TODO: 7/29/2019 DELETE THIS METHOD
+    @ModelAttribute("Money")
+    public User getLoggedUser() {
+        return null; //or however you create a default
+    }
 
-	@RequestMapping(value = "/registration", method = RequestMethod.GET)
-	public String goToRegistration(ModelMap model) {
-		//model.put("loggedUser", null);
-		//model.addAttribute("user", new User());
-		return "registration";
-	}
+    /**
+     * Prints Registration page
+     *
+     * @return name of a page to render
+     */
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public String goToRegistration() {
+        return "registration";
+    }
 
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public String registerUser(@ModelAttribute("user") User user, ModelMap model) {
-		if (!model.containsKey("loggedUser")) model.put("loggedUser", null);
-		try {
-			if (!userDAO.registerNewUser(user, model)) {
-				model.put("loggedUser", user);
-				return "redirect:/home";
-			}
-		} catch (SQLException e) {
-			model.addAttribute("SQLError", "Error while trying to register user. <br>Please try again");
-			// TODO: 20.07.2019 add logger
-		}
-		return "registration";
-	}
+    /**
+     * Registers new user. If registration is successful it redirects to home page and add user to session. Otherwise it reloads Registration page and shows error message
+     *
+     * @param user  user trying to register
+     * @param model
+     * @return name of a page to render
+     */
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registerUser(@ModelAttribute("user") User user, ModelMap model) {
+        if (!model.containsKey("loggedUser")) model.put("loggedUser", null); // TODO: 7/29/2019 this may be useless
+        try {
+            if (!userDAO.registerNewUser(user, model)) { // TODO: 7/29/2019 this may be useless. Consider to change method return type to void
+                model.put("loggedUser", user);
+                return "redirect:/home";
+            }
+        } catch (SQLException e) {
+            model.addAttribute("SQLError", "Error while trying to register user. <br>Please try again");
+            // TODO: 20.07.2019 add logger
+        }
+        return "registration";
+    }
 }
