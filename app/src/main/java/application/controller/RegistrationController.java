@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.sql.SQLException;
 // TODO: 7/29/2019 ADD PASSWORD ENCRYPTION
+
 /**
  * This class is used for handle events on Registration page
  */

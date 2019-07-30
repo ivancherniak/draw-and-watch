@@ -16,20 +16,6 @@ import java.util.List;
  */
 public class UserDAOImpl extends BaseDAO implements UserDAO {
     /**
-     * Connection instance
-     */
-    private Connection connection;
-
-    /**
-     * Gets connection
-     *
-     * @throws SQLException
-     */
-    private void getConnection() throws SQLException {
-        connection = jdbcTemplate.getDataSource().getConnection();
-    }
-
-    /**
      * Gets list of all users
      *
      * @return list of users
@@ -37,24 +23,23 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
      */
     @Override
     public List<User> getAllUsers() throws SQLException {
-        if (connection == null || connection.isClosed()) getConnection();
         try {
-            return parseUsers(connection
-                    .prepareStatement(Statements.GET_ALL_USERS)
-                    .executeQuery());
+            getConnection();
+            statement = connection.prepareStatement(Statements.GET_ALL_USERS);
+            resultSet = statement.executeQuery();
+            return parseUsers();
         } finally {
-            connection.close();
+            closeAll();
         }
     }
 
     /**
      * Gets list of user from ResultSet
      *
-     * @param resultSet
      * @return list of users
      * @throws SQLException
      */
-    private List<User> parseUsers(ResultSet resultSet) throws SQLException {
+    private List<User> parseUsers() throws SQLException {
         List<User> list = new ArrayList<>();
         while (resultSet.next()) {
             list.add(new User(
@@ -76,20 +61,19 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
      */
     @Override
     public boolean registerNewUser(User user, ModelMap model) throws SQLException {
-        if (isUniqueLogin(user, model)) {
-            if (connection == null || connection.isClosed()) getConnection();
-            try {
+        try {
+            if (isUniqueLogin(user, model)) {
+                getConnection();
                 statement = connection.prepareStatement(Statements.INSERT_NEW_USER);
                 statement.setString(1, user.getLogin());
                 statement.setString(2, user.getName());
                 statement.setString(3, user.getPassword());
                 return statement.execute();
-            } finally {
-                //if (statement != null) statement.close();
-                connection.close();
             }
+            return false;
+        } finally {
+            closeAll();
         }
-        return false;
     }
 
     /**
@@ -101,8 +85,8 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
      * @throws SQLException when select statement fails
      */
     private boolean isUniqueLogin(User user, ModelMap model) throws SQLException {
-        if (connection == null || connection.isClosed()) getConnection();
         try {
+            getConnection();
             statement = connection.prepareStatement(Statements.GET_USER_BY_LOGIN);
             statement.setString(1, user.getLogin());
             resultSet = statement.executeQuery();
@@ -112,9 +96,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
             }
             return true;
         } finally {
-            connection.close();
-            //if (statement != null) statement.close();
-            //if (resultSet != null) resultSet.close();
+            closeAll();
         }
     }
 
@@ -128,8 +110,8 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
      */
     @Override
     public boolean isUserExists(User user, ModelMap model) throws SQLException {
-        if (connection == null || connection.isClosed()) getConnection();
         try {
+            getConnection();
             statement = connection.prepareStatement(Statements.SELECT_USER);
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
@@ -142,27 +124,28 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
                 return false;
             }
         } finally {
-            connection.close();
+            closeAll();
         }
     }
 
     /**
      * Gets list of favourite profiles for current user
      *
-     * @param user current user
+     * @param login current user's login
      * @return list of users
      * @throws SQLException when select statement fails
      */
     // TODO: 7/29/2019 rebuild method logic
     @Override
-    public List<User> getFavouriteProfiles(User user) throws SQLException {
-        if (connection == null || connection.isClosed()) getConnection();
+    public List<User> getFavouriteProfiles(String login) throws SQLException {
         try {
+            getConnection();
             statement = connection.prepareStatement(Statements.GET_FAVOURITE_PROFILES_BY_USER_LOGIN);
-            statement.setString(1, user.getLogin());
-            return parseUsers(statement.executeQuery());
+            statement.setString(1, login);
+            resultSet = statement.executeQuery();
+            return parseUsers();
         } finally {
-            connection.close();
+            closeAll();
         }
     }
 
@@ -175,19 +158,20 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
      */
     @Override
     public User getUserProfile(String login) throws SQLException {
-        if (connection == null || connection.isClosed()) getConnection();
         try {
+            getConnection();
             statement = connection.prepareStatement(Statements.GET_USER_DATA_BY_LOGIN);
             statement.setString(1, login);
-            List<User> list = parseUsers(statement.executeQuery());
+            resultSet = statement.executeQuery();
+            List<User> list = parseUsers();
             return list == null || list.size() == 0 ? null : list.get(0);
         } finally {
-            connection.close();
+            closeAll();
         }
     }
 
     /**
-     * Adds profile to favourites for current user
+     * Adds profile to favourites for current user. If profile is already in favourites, then it removes from favourites
      *
      * @param login login of current user
      * @param likes login user to add to favourites
@@ -195,35 +179,38 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
      */
     @Override
     public void addProfileToFavourites(String login, String likes) throws SQLException {
-        if (connection == null || connection.isClosed()) getConnection();
         try {
-            statement = connection.prepareStatement(Statements.ADD_PROFILE_TO_FAVOURITES);
+            getConnection();
+            statement = connection.prepareStatement(isProfileInFavourites(login, likes)
+                    ? Statements.DELETE_PROFILE_FROM_FAVOURITES
+                    : Statements.ADD_PROFILE_TO_FAVOURITES);
             statement.setString(1, login);
             statement.setString(2, likes);
             statement.execute();
         } finally {
-            connection.close();
+            closeAll();
         }
     }
 
     /**
-     * deletes profile from favourites for current user
+     * Checks whether profile in favourites for current user
      *
-     * @param login login of current user
-     * @param likes login of user to delete from favourites
-     * @throws SQLException when delete statement fails
+     * @param login current user's login
+     * @param likes login of user to check
+     * @return true if profile is in favourites, false otherwise
+     * @throws SQLException when select statement fails
      */
     @Override
-    public void deleteProfileFromFavourites(String login, String likes) throws SQLException {
-        if (connection == null || connection.isClosed()) getConnection();
+    public boolean isProfileInFavourites(String login, String likes) throws SQLException {
         try {
-            statement = connection.prepareStatement(Statements.DELETE_PROFILE_FROM_FAVOURITES);
+            getConnection();
+            statement = connection.prepareStatement(Statements.IS_PROFILE_IN_FAVOURITES);
             statement.setString(1, login);
             statement.setString(2, likes);
-            statement.execute();
-            jdbcTemplate.getDataSource().getConnection().close(); // TODO: 7/29/2019 remove it
+            resultSet = statement.executeQuery();
+            return resultSet.next() && resultSet.getInt(1) != 0;
         } finally {
-            connection.close();
+            closeAll();
         }
     }
 }

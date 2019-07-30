@@ -23,9 +23,9 @@
                 <input type="text" name="name">
                 <br>
                 <% if(request.getAttribute("invalidName") != null) { %>
-                        <span class="errorMsg">
-                            <%=request.getAttribute("invalidName")%>
-                        </span>
+                <span class="errorMsg">
+                    <%=request.getAttribute("invalidName")%>
+                </span>
                 <% } %>
             </td>
         </tr>
@@ -68,9 +68,7 @@
         <tr>
             <td colspan="2" class="submit">
                 <input type="submit" name="reg" value="Sign Up">
-
             </td>
-
         </tr>
         <% if(request.getAttribute("SQLError") != null) { %>
         <tr><td colspan="2">

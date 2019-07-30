@@ -60,7 +60,7 @@
                     <hr>
                     Leave a comment:<br>
                     <textarea name="comment"></textarea>
-                    <input type="hidden" name="pictureId", value="<%=((Picture) request.getAttribute("picture")).getId()%>"><br>
+                    <input type="hidden" name="pictureId" value="<%=((Picture) request.getAttribute("picture")).getId()%>"><br>
                     <input type="submit" value="Post">
                 </form>
             </td>

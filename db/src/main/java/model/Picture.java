@@ -9,11 +9,11 @@ public class Picture {
     /**
      * id of a picture
      */
-    private long id; // TODO: 7/29/2019 should be final
+    private final long id;
     /**
      * Who painted a picture
      */
-    private User paintedBy; // TODO: 7/29/2019 should be final
+    private final User paintedBy;
     /**
      * Picture data
      */
@@ -21,7 +21,7 @@ public class Picture {
     /**
      * When picture was painted
      */
-    private Date createdWhen; // TODO: 7/29/2019 should be final
+    private final Date createdWhen;
 
     /**
      * Getter for id
@@ -30,24 +30,6 @@ public class Picture {
      */
     public long getId() {
         return id;
-    }
-
-    /**
-     * Setter for id
-     *
-     * @param id picture id
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /**
-     * Setter for paintedBy
-     *
-     * @param paintedBy who painted a picture
-     */
-    public void setPaintedBy(User paintedBy) {
-        this.paintedBy = paintedBy;
     }
 
     /**
@@ -84,15 +66,6 @@ public class Picture {
      */
     public Date getCreatedWhen() {
         return createdWhen;
-    }
-
-    /**
-     * Setter for createdWhen
-     *
-     * @param createdWhen when picture was created
-     */
-    public void setCreatedWhen(Date createdWhen) {
-        this.createdWhen = createdWhen;
     }
 
     /**

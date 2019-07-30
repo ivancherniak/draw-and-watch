@@ -11,9 +11,6 @@ import java.util.List;
  * base methods for picture DAO
  */
 public interface PictureDAO {
-
-    //Picture getPictureById(long id) throws SQLException;
-
     /**
      * Gets all pictures painted by user
      *
@@ -46,8 +43,6 @@ public interface PictureDAO {
      * @throws SQLException when insert statement fails
      */
     void addCommentToPicture(long pictureId, String login, String comment) throws SQLException;
-
-    Long getLastCommentForPicture(long pictureId) throws SQLException; // TODO: 7/29/2019 should be private
 
     /**
      * Gets all comments under picture

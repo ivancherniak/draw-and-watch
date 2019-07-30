@@ -53,8 +53,8 @@
                 <%=request.getAttribute("SQLError")%>
             </span>
         </td></tr>
-        <% } %>
-        <% if(request.getAttribute("invalidUser") != null) { %>
+        <% }
+        if(request.getAttribute("invalidUser") != null) { %>
         <tr><td colspan="2">
             <span class="errorMsg">
                 <%=request.getAttribute("invalidUser")%>

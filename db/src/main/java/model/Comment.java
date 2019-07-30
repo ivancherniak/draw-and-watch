@@ -8,23 +8,23 @@ public class Comment {
     /**
      * id of a comment
      */
-    private long commentId;
+    private final long commentId;
     /**
      * id of a picture the comment belongs to
      */
-    private long pictureId;
+    private final long pictureId;
     /**
      * login of a user the comment belongs to
      */
-    private String login;
+    private final String login;
     /**
      * name of a user the comment belongs to
      */
-    private String name;
+    private final String name;
     /**
      * text of the comment
      */
-    private String commentData;
+    private final String commentData;
 
     /**
      * This constructor creates instance of Comment

@@ -42,7 +42,7 @@
             <table>
                 <tr>
                     <td><img src="static/profilePhotos/photo.png"></td>
-                    <% if (request.getSession().getAttribute("loggedUser")!= null && !((User) request.getAttribute("userProfile")).getLogin().equals(((User) request.getSession().getAttribute("loggedUser")).getLogin())) { %>
+                    <% if (request.getSession().getAttribute("loggedUser") != null && !((User) request.getAttribute("userProfile")).getLogin().equals(((User) request.getSession().getAttribute("loggedUser")).getLogin())) { %>
                     <td>
                         <% if ((boolean) request.getAttribute("isProfileInFavourites")) { %>
                         <a href="deleteFromFavourites?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">
@@ -71,7 +71,7 @@
                 <p><img src="<%=picture.getContent()%>"><p>
             </a>
         </div>
-        <%    } %>
+        <% } %>
     </div>
     <% } %>
 </div>

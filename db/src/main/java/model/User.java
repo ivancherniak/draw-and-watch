@@ -1,9 +1,5 @@
 package model;
 
-import java.util.Optional;
-
-// TODO: 7/29/2019 replace optional with base types
-
 /**
  * This class represents user instances
  */
@@ -11,19 +7,19 @@ public class User {
     /**
      * Name of the user
      */
-    private Optional<String> name;
+    private String name;
     /**
      * User's login
      */
-    private Optional<String> login; // TODO: 7/29/2019 should be final
+    private final String login;
     /**
      * User's password
      */
-    private Optional<String> password; // TODO: 7/29/2019 should be final
+    private final String password;
     /**
      * User's repeat password
      */
-    private Optional<String> repeatPassword; // TODO: 7/29/2019 should be final
+    private final String repeatPassword;
 
     /**
      * This constructor creates instance of User
@@ -34,10 +30,10 @@ public class User {
      * @param repeatPassword user's repeat password
      */
     public User(String name, String login, String password, String repeatPassword) {
-        this.name = Optional.ofNullable(name);
-        this.login = Optional.ofNullable(login);
-        this.password = Optional.ofNullable(password);
-        this.repeatPassword = Optional.ofNullable(repeatPassword);
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.repeatPassword = repeatPassword;
     }
 
     /**
@@ -46,7 +42,7 @@ public class User {
      * @return user's login
      */
     public String getLogin() {
-        return login.orElseGet(String::new);
+        return login;
     }
 
     /**
@@ -55,7 +51,7 @@ public class User {
      * @return user's name
      */
     public String getName() {
-        return name.orElseGet(String::new);
+        return name;
     }
 
     /**
@@ -64,7 +60,7 @@ public class User {
      * @return user's password
      */
     public String getPassword() {
-        return password.orElseGet(String::new);
+        return password;
     }
 
     /**
@@ -73,6 +69,6 @@ public class User {
      * @param name user's name
      */
     public void setName(String name) {
-        this.name = Optional.ofNullable(name);
+        this.name = name;
     }
 }

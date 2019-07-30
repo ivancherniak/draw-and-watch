@@ -35,7 +35,6 @@
             <canvas id="drawCanvas" width="800" height="600">
                 Your browser does not support Canvas
             </canvas>
-
         </div>
         <div class="colors">
             <div class="colorPicker brown" onclick="setColor('brown');"></div>

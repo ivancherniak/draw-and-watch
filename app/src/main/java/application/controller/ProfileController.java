@@ -54,11 +54,11 @@ public class ProfileController {
         User user = (User) model.get("loggedUser");
         if (login == null || login.length() == 0) { // TODO: 7/29/2019 check this case. It may never happen
             if (user == null) return "redirect:/errorPage";
-            login = user.getLogin();
+            login = user.getLogin(); // TODO: 7/30/2019 rewrite logic
         }
         try {
             model.put("userProfile", userDAO.getUserProfile(login));
-            model.put("isProfileInFavourites", user != null && userDAO.getFavouriteProfiles(user).size() != 0); // TODO: 7/29/2019 wrong method, create new one for checking if profile is in favourites
+            model.put("isProfileInFavourites", user != null && userDAO.isProfileInFavourites(user.getLogin(), login));
             model.put("userPictures", pictureDAO.getPicturesByUser(login));
         } catch (SQLException e) {
             // TODO: 27.07.2019 add logger
@@ -68,7 +68,8 @@ public class ProfileController {
     }
 
     /**
-     * Adds profile to favourites and reloads Profile page. If the user is not logged in, then it redirects to Signin page
+     * Adds profile to favourites and reloads Profile page. If profile is already in favourites, then it deletes from favourites.
+     * If the user is not logged in, then it redirects to Signin page
      *
      * @param login login of user whom this profile belongs to
      * @param model
@@ -81,8 +82,8 @@ public class ProfileController {
         if (login == null || login.length() == 0)
             return "redirect:/errorPage"; // TODO: 7/29/2019 check this case. It may never happen
         try {
-            model.put("userProfile", userDAO.getUserProfile(login));
-            model.put("isProfileInFavourites", userDAO.getFavouriteProfiles((User) model.get("loggedUser")).size() != 0); // TODO: 7/29/2019 wrong method, create new one for checking if profile is in favourites
+            //model.put("userProfile", userDAO.getUserProfile(login));
+            //model.put("isProfileInFavourites", userDAO.getFavouriteProfiles((User) model.get("loggedUser")).size() != 0); // TODO: 7/29/2019 wrong method, create new one for checking if profile is in favourites
             userDAO.addProfileToFavourites(((User) model.get("loggedUser")).getLogin(), login);
         } catch (SQLException e) {
             // TODO: 27.07.2019 add logger
@@ -90,30 +91,4 @@ public class ProfileController {
         }
         return "redirect:/profile?login=" + login;
     }
-
-    /**
-     * Deletes profile from favourites and reloads Profile page. If the user is not logged in, then it redirects to Signin page
-     *
-     * @param login login of user whom this profile belongs to
-     * @param model
-     * @return name of a page to render
-     */
-    @RequestMapping(value = "/deleteFromFavourites", method = RequestMethod.GET)
-    public String deleteFromFavourites(@RequestParam(value = "login") String login, ModelMap model) {
-        //User user = (User) model.get("loggedUser"); // TODO: 7/29/2019 check the refactor
-        if (!model.containsKey("loggedUser")) return "redirect:/signin"; // TODO: 7/29/2019 probably never happen
-        if (login == null || login.length() == 0)
-            return "redirect:/errorPage"; // TODO: 7/29/2019 check this case. It may never happen
-        try {
-            model.put("userProfile", userDAO.getUserProfile(login));
-            model.put("isProfileInFavourites", userDAO.getFavouriteProfiles((User) model.get("loggedUser")).size() != 0); // TODO: 7/29/2019 wrong method, create new one for checking if profile is in favourites
-            userDAO.deleteProfileFromFavourites(((User) model.get("loggedUser")).getLogin(), login);
-        } catch (SQLException e) {
-            // TODO: 27.07.2019 add logger
-            return "redirect:/errorPage";
-        }
-        return "redirect:/profile?login=" + login;
-    }
-
-    // TODO: 7/29/2019 probably it's better to join addToFavourites and deleteFromFavourites into one method the same way as in likeThePicture method. They contains the same logic
 }
