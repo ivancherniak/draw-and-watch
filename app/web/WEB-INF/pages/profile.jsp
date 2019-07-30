@@ -45,7 +45,7 @@
                     <% if (request.getSession().getAttribute("loggedUser") != null && !((User) request.getAttribute("userProfile")).getLogin().equals(((User) request.getSession().getAttribute("loggedUser")).getLogin())) { %>
                     <td>
                         <% if ((boolean) request.getAttribute("isProfileInFavourites")) { %>
-                        <a href="deleteFromFavourites?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">
+                        <a href="addToFavourites?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">
                             <input type="button" value="Delete from favourites">
                         </a>
                         <% } else { %>

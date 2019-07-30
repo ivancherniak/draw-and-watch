@@ -50,9 +50,9 @@ public class ProfileController {
      * @return name of a page to render
      */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String goToProfile(@RequestParam(value = "login") String login, ModelMap model) {
+    public String goToProfile(@RequestParam(value = "login", required = false) String login, ModelMap model) {
         User user = (User) model.get("loggedUser");
-        if (login == null || login.length() == 0) { // TODO: 7/29/2019 check this case. It may never happen
+        if (login == null || login.length() == 0) {
             if (user == null) return "redirect:/errorPage";
             login = user.getLogin(); // TODO: 7/30/2019 rewrite logic
         }
@@ -77,13 +77,10 @@ public class ProfileController {
      */
     @RequestMapping(value = "/addToFavourites", method = RequestMethod.GET)
     public String addToFavourites(@RequestParam(value = "login") String login, ModelMap model) {
-        //User user = (User) model.get("loggedUser"); // TODO: 7/29/2019 check the refactor
         if (!model.containsKey("loggedUser")) return "redirect:/signin";
         if (login == null || login.length() == 0)
-            return "redirect:/errorPage"; // TODO: 7/29/2019 check this case. It may never happen
+            return "redirect:/errorPage";
         try {
-            //model.put("userProfile", userDAO.getUserProfile(login));
-            //model.put("isProfileInFavourites", userDAO.getFavouriteProfiles((User) model.get("loggedUser")).size() != 0); // TODO: 7/29/2019 wrong method, create new one for checking if profile is in favourites
             userDAO.addProfileToFavourites(((User) model.get("loggedUser")).getLogin(), login);
         } catch (SQLException e) {
             // TODO: 27.07.2019 add logger

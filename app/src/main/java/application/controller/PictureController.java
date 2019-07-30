@@ -65,7 +65,6 @@ public class PictureController {
      */
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public String doComment(@RequestParam(value = "comment") String comment, @RequestParam(value = "pictureId") long pictureId, ModelMap model) {
-        //User user = (User) model.get("loggedUser"); // TODO: 7/29/2019 check the refactor
         if (!model.containsKey("loggedUser")) return "redirect:/signin";
         try {
             pictureDAO.addCommentToPicture(pictureId, ((User) model.get("loggedUser")).getLogin(), comment);
@@ -85,7 +84,6 @@ public class PictureController {
      */
     @RequestMapping(value = "/likeIt", method = RequestMethod.POST)
     public String likeThePicture(@RequestParam(value = "pictureId") long pictureId, ModelMap model) {
-        //User user = (User) model.get("loggedUser"); // TODO: 7/29/2019 check the refactor
         if (!model.containsKey("loggedUser")) return "redirect:/signin";
         try {
             pictureDAO.likeThePicture(pictureId, ((User) model.get("loggedUser")).getLogin());

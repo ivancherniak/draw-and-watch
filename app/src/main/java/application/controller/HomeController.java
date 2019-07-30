@@ -55,7 +55,7 @@ public class HomeController {
         try {
             model.put("allUsers", userDAO.getAllUsers());
             if (model.containsKey("loggedUser")) {
-                model.put("favourites", userDAO.getFavouriteProfiles((User) model.get("loggedUser")));
+                model.put("favourites", userDAO.getFavouriteProfiles(((User) model.get("loggedUser")).getLogin()));
             }
         } catch (SQLException e) {
             // TODO: 27.07.2019 add logger

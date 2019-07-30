@@ -22,11 +22,6 @@ public class LoginController {
      * UserDAOImpl instance
      */
     private UserDAOImpl userDAO;
-    //private InputValidator validator;
-
-    //public void setValidator(InputValidator validator) {
-    //	this.validator = validator;
-    //}
 
     /**
      * Setter for UserDAOImpl instance
@@ -62,11 +57,5 @@ public class LoginController {
     public String doLogout(SessionStatus status) {
         status.setComplete();
         return "redirect:/home";
-    }
-
-    // TODO: 7/29/2019 DELETE THIS METHOD
-    @RequestMapping(value = "/signin", method = RequestMethod.GET)
-    public String goToSignin() {
-        return "signin";
     }
 }
