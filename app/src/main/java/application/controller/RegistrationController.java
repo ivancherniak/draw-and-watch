@@ -2,6 +2,7 @@ package application.controller;
 
 import DAOImpl.UserDAOImpl;
 import model.User;
+import model.UserRegistrationModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -61,7 +62,7 @@ public class RegistrationController {
      * @return name of a page to render
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registerUser(@ModelAttribute("user") User user, ModelMap model) {
+    public String registerUser(@ModelAttribute("user") UserRegistrationModel user, ModelMap model) {
         try {
             if (!userDAO.registerNewUser(user, model)) { // TODO: 7/29/2019 this may be useless. Consider to change method return type to void
                 model.put("loggedUser", user);

@@ -2,7 +2,10 @@ package DAOImpl;
 
 import DAO.Statements;
 import DAO.UserDAO;
+import model.SimpleUser;
 import model.User;
+import model.UserLoginModel;
+import model.UserRegistrationModel;
 import org.springframework.ui.ModelMap;
 
 import java.sql.Connection;
@@ -16,16 +19,16 @@ import java.util.List;
  */
 public class UserDAOImpl extends BaseDAO implements UserDAO {
     /**
-     * Gets list of all users
+     * Gets main data of all users. It returns list of SimpleUser instances
      *
      * @return list of users
      * @throws SQLException when select statement fails
      */
     @Override
-    public List<User> getAllUsers() throws SQLException {
+    public List<SimpleUser> getAllUsers() throws SQLException {
         try {
             getConnection();
-            statement = connection.prepareStatement(Statements.GET_ALL_USERS);
+            statement = connection.prepareStatement(Statements.GET_MAIN_DATA_OF_ALL_USERS);
             resultSet = statement.executeQuery();
             return parseUsers();
         } finally {
@@ -39,13 +42,12 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
      * @return list of users
      * @throws SQLException
      */
-    private List<User> parseUsers() throws SQLException {
-        List<User> list = new ArrayList<>();
+    private List<SimpleUser> parseUsers() throws SQLException {
+        List<SimpleUser> list = new ArrayList<>();
         while (resultSet.next()) {
-            list.add(new User(
-                    resultSet.getString(2),
+            list.add(new SimpleUser(
                     resultSet.getString(1),
-                    null, null
+                    resultSet.getString(2)
             ));
         }
         return list;
@@ -60,9 +62,9 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
      * @throws SQLException
      */
     @Override
-    public boolean registerNewUser(User user, ModelMap model) throws SQLException {
+    public boolean registerNewUser(UserRegistrationModel user, ModelMap model) throws SQLException {
         try {
-            if (isUniqueLogin(user, model)) {
+            if (isUniqueLogin(user.getLogin(), model)) {
                 getConnection();
                 statement = connection.prepareStatement(Statements.INSERT_NEW_USER);
                 statement.setString(1, user.getLogin());
@@ -79,16 +81,16 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
     /**
      * Checks whether user's login is unique in database
      *
-     * @param user  user to check
+     * @param login user's login to check
      * @param model model to add error messages if occur
      * @return true if login is unique, and false otherwise
      * @throws SQLException when select statement fails
      */
-    private boolean isUniqueLogin(User user, ModelMap model) throws SQLException {
+    private boolean isUniqueLogin(String login, ModelMap model) throws SQLException {
         try {
             getConnection();
             statement = connection.prepareStatement(Statements.GET_USER_BY_LOGIN);
-            statement.setString(1, user.getLogin());
+            statement.setString(1, login);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 model.addAttribute("invalidLogin", "This login is already in use");
@@ -101,70 +103,20 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
     }
 
     /**
-     * Checks whether user exists in database
-     *
-     * @param user  user to check
-     * @param model
-     * @return true if user exists in database, false otherwise
-     * @throws SQLException when select statement fails
-     */
-    @Override
-    public boolean isUserExists(User user, ModelMap model) throws SQLException {
-        try {
-            getConnection();
-            statement = connection.prepareStatement(Statements.SELECT_USER);
-            statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
-            resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                user.setName(resultSet.getString(2));
-                return true;
-            } else {
-                model.addAttribute("invalidUser", "Incorrect login or password");
-                return false;
-            }
-        } finally {
-            closeAll();
-        }
-    }
-
-    /**
-     * Gets list of favourite profiles for current user
+     * Gets main data of favourite profiles for current user
      *
      * @param login current user's login
      * @return list of users
      * @throws SQLException when select statement fails
      */
-    // TODO: 7/29/2019 rebuild method logic
     @Override
-    public List<User> getFavouriteProfiles(String login) throws SQLException {
+    public List<SimpleUser> getFavouriteProfiles(String login) throws SQLException {
         try {
             getConnection();
             statement = connection.prepareStatement(Statements.GET_FAVOURITE_PROFILES_BY_USER_LOGIN);
             statement.setString(1, login);
             resultSet = statement.executeQuery();
             return parseUsers();
-        } finally {
-            closeAll();
-        }
-    }
-
-    /**
-     * Gets User instance by login
-     *
-     * @param login user's login
-     * @return User instance
-     * @throws SQLException when select statement fails
-     */
-    @Override
-    public User getUserProfile(String login) throws SQLException {
-        try {
-            getConnection();
-            statement = connection.prepareStatement(Statements.GET_USER_DATA_BY_LOGIN);
-            statement.setString(1, login);
-            resultSet = statement.executeQuery();
-            List<User> list = parseUsers();
-            return list == null || list.size() == 0 ? null : list.get(0);
         } finally {
             closeAll();
         }
@@ -210,6 +162,53 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
             statement.setString(2, likes);
             resultSet = statement.executeQuery();
             return resultSet.next() && resultSet.getInt(1) != 0;
+        } finally {
+            closeAll();
+        }
+    }
+
+    /**
+     * Gets full information about user
+     *
+     * @param user  user's login data
+     * @param model model to put error messages if occur
+     * @return instance of User
+     * @throws SQLException when select statement fails
+     */
+    @Override
+    public User getUserByLoginAndPassword(UserLoginModel user, ModelMap model) throws SQLException {
+        try {
+            getConnection();
+            statement = connection.prepareStatement(Statements.GET_USER_DATA_BY_LOGIN_AND_PASSWORD);
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            resultSet = statement.executeQuery();
+            if (!resultSet.next()) {
+                model.put("invalidUser", "Incorrect login or password");
+                return null;
+            }
+            return new User(user.getLogin(), resultSet.getString(1), user.getPassword());
+        } finally {
+            closeAll();
+        }
+    }
+
+    /**
+     * Gets main information about user
+     *
+     * @param login user's login
+     * @return instance of SimpleUser
+     * @throws SQLException when select statement fails
+     */
+    @Override
+    public SimpleUser getSimpleUserByLogin(String login) throws SQLException {
+        try {
+            getConnection();
+            statement = connection.prepareStatement(Statements.GET_MAIN_USER_DATA_BY_LOGIN);
+            statement.setString(1, login);
+            resultSet = statement.executeQuery();
+            List<SimpleUser> list = parseUsers();
+            return list.size() == 0 ? null : list.get(0);
         } finally {
             closeAll();
         }

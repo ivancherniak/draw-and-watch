@@ -1,57 +1,24 @@
 package model;
 
 /**
- * This class represents user instances
+ * This class contains the whole information about users
  */
-public class User {
-    /**
-     * Name of the user
-     */
-    private String name;
-    /**
-     * User's login
-     */
-    private final String login;
+public class User extends SimpleUser {
     /**
      * User's password
      */
-    private final String password;
-    /**
-     * User's repeat password
-     */
-    private final String repeatPassword;
+    private String password;
 
     /**
      * This constructor creates instance of User
      *
-     * @param name           user's name
-     * @param login          user's login
-     * @param password       user's password
-     * @param repeatPassword user's repeat password
+     * @param name     user's name
+     * @param login    user's login
+     * @param password user's password
      */
-    public User(String name, String login, String password, String repeatPassword) {
-        this.name = name;
-        this.login = login;
+    public User(String login, String name, String password) {
+        super(login, name);
         this.password = password;
-        this.repeatPassword = repeatPassword;
-    }
-
-    /**
-     * Getter for login
-     *
-     * @return user's login
-     */
-    public String getLogin() {
-        return login;
-    }
-
-    /**
-     * Getter for name
-     *
-     * @return user's name
-     */
-    public String getName() {
-        return name;
     }
 
     /**
@@ -64,11 +31,11 @@ public class User {
     }
 
     /**
-     * Setter for name
+     * Setter for password
      *
-     * @param name user's name
+     * @param password user's password
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

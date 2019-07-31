@@ -3,60 +3,25 @@ package model;
 import java.util.Date;
 
 /**
- * This class represents picture instances
+ * This class the whole information about picture
  */
-public class Picture {
-    /**
-     * id of a picture
-     */
-    private final long id;
+public class Picture extends SimplePicture {
     /**
      * Who painted a picture
      */
-    private final User paintedBy;
-    /**
-     * Picture data
-     */
-    private String content;
+    private SimpleUser paintedBy;
     /**
      * When picture was painted
      */
-    private final Date createdWhen;
-
-    /**
-     * Getter for id
-     *
-     * @return picture id
-     */
-    public long getId() {
-        return id;
-    }
+    private Date createdWhen;
 
     /**
      * Getter for painted picture
      *
      * @return who painted picture
      */
-    public User getPaintedBy() {
+    public SimpleUser getPaintedBy() {
         return paintedBy;
-    }
-
-    /**
-     * Getter for content
-     *
-     * @return picture data
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * Setter for content
-     *
-     * @param content picture content
-     */
-    public void setContent(String content) {
-        this.content = content;
     }
 
     /**
@@ -76,11 +41,35 @@ public class Picture {
      * @param createdWhen when picture was created
      * @param content     picture data
      */
-    public Picture(long id, User paintedBy, Date createdWhen, String content) {
-        this.id = id;
+    public Picture(long id, SimpleUser paintedBy, Date createdWhen, String content) {
+        super(id, content);
         this.paintedBy = paintedBy;
-        this.content = content;
         this.createdWhen = createdWhen;
     }
 
+    /**
+     * Setter for paintedBy
+     *
+     * @param paintedBy who painted a picture
+     */
+    public void setPaintedBy(User paintedBy) {
+        this.paintedBy = paintedBy;
+    }
+
+    /**
+     * Setter for createdWhen
+     *
+     * @param createdWhen when the picture was created
+     */
+    public void setCreatedWhen(Date createdWhen) {
+        this.createdWhen = createdWhen;
+    }
+
+    /**
+     * Setter for paintedBy
+     * @param paintedBy author of a picture
+     */
+    public void setPaintedBy(SimpleUser paintedBy) {
+        this.paintedBy = paintedBy;
+    }
 }

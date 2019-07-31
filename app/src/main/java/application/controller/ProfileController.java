@@ -57,9 +57,10 @@ public class ProfileController {
             login = user.getLogin(); // TODO: 7/30/2019 rewrite logic
         }
         try {
-            model.put("userProfile", userDAO.getUserProfile(login));
-            model.put("isProfileInFavourites", user != null && userDAO.isProfileInFavourites(user.getLogin(), login));
-            model.put("userPictures", pictureDAO.getPicturesByUser(login));
+            String lgn = user.getLogin();
+            model.put("userProfile", lgn != null && lgn.equals(login) ? user : userDAO.getSimpleUserByLogin(login));
+            model.put("isProfileInFavourites", user != null && userDAO.isProfileInFavourites(lgn, login));
+            model.put("userPictures", pictureDAO.getSimplePicturesByLogin(login));
         } catch (SQLException e) {
             // TODO: 27.07.2019 add logger
             return "redirect:/errorPage";

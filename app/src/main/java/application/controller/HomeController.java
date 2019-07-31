@@ -51,7 +51,7 @@ public class HomeController {
      * @return name of a page to render
      */
     @RequestMapping(value = {"/home", "", "/"}, method = RequestMethod.GET)
-    public String printHello(ModelMap model) {
+    public String goToHome(ModelMap model) {
         try {
             model.put("allUsers", userDAO.getAllUsers());
             if (model.containsKey("loggedUser")) {

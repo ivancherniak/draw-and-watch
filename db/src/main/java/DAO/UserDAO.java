@@ -1,6 +1,9 @@
 package DAO;
 
+import model.SimpleUser;
 import model.User;
+import model.UserLoginModel;
+import model.UserRegistrationModel;
 import org.springframework.ui.ModelMap;
 
 import java.sql.SQLException;
@@ -11,12 +14,12 @@ import java.util.List;
  */
 public interface UserDAO {
     /**
-     * Gets list of all users
+     * Gets main data of all users. It returns list of SimpleUser instances
      *
      * @return list of users
      * @throws SQLException when select statement fails
      */
-    List<User> getAllUsers() throws SQLException;
+    List<SimpleUser> getAllUsers() throws SQLException;
 
     /**
      * Registers new user
@@ -26,35 +29,17 @@ public interface UserDAO {
      * @return true if user is successfully registered, and false otherwise
      * @throws SQLException
      */
-    boolean registerNewUser(User user, ModelMap model) throws SQLException;
+    boolean registerNewUser(UserRegistrationModel user, ModelMap model) throws SQLException;
+
 
     /**
-     * Checks whether user exists in database
-     *
-     * @param user  user to check
-     * @param model
-     * @return true if user exists in database, false otherwise
-     * @throws SQLException when select statement fails
-     */
-    boolean isUserExists(User user, ModelMap model) throws SQLException;
-
-    /**
-     * Gets list of favourite profiles for current user
+     * Gets main data of favourite profiles for current user
      *
      * @param login current user's login
      * @return list of users
      * @throws SQLException when select statement fails
      */
-    List<User> getFavouriteProfiles(String login) throws SQLException;
-
-    /**
-     * Gets User instance by login
-     *
-     * @param login user's login
-     * @return User instance
-     * @throws SQLException when select statement fails
-     */
-    User getUserProfile(String login) throws SQLException;
+    List<SimpleUser> getFavouriteProfiles(String login) throws SQLException;
 
     /**
      * Adds profile to favourites for current user
@@ -74,4 +59,23 @@ public interface UserDAO {
      * @throws SQLException when select statement fails
      */
     boolean isProfileInFavourites(String login, String likes) throws SQLException;
+
+    /**
+     * Gets full information about user
+     *
+     * @param user  user's login data
+     * @param model model to put error messages if occur
+     * @return instance of User
+     * @throws SQLException when select statement fails
+     */
+    User getUserByLoginAndPassword(UserLoginModel user, ModelMap model) throws SQLException;
+
+    /**
+     * Gets main information about user
+     *
+     * @param login user's login
+     * @return instance of SimpleUser
+     * @throws SQLException when select statement fails
+     */
+    SimpleUser getSimpleUserByLogin(String login) throws SQLException;
 }

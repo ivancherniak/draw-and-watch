@@ -3,80 +3,34 @@ package model;
 /**
  * This class represents comment instances
  */
-// TODO: 7/29/2019 all fields should be final
 public class Comment {
     /**
-     * id of a comment
+     * The author of comment
      */
-    private final long commentId;
-    /**
-     * id of a picture the comment belongs to
-     */
-    private final long pictureId;
-    /**
-     * login of a user the comment belongs to
-     */
-    private final String login;
-    /**
-     * name of a user the comment belongs to
-     */
-    private final String name;
+    private SimpleUser user;
     /**
      * text of the comment
      */
-    private final String commentData;
+    private String commentData;
 
     /**
      * This constructor creates instance of Comment
      *
-     * @param commentId   id of a comment
-     * @param pictureId   id of a picture the comment belongs to
-     * @param login       login of a user the comment belongs to
-     * @param name        name of a user the comment belongs to
+     * @param user        author of comment
      * @param commentData text of the comment
      */
-    public Comment(long commentId, long pictureId, String login, String name, String commentData) {
-        this.commentId = commentId;
-        this.pictureId = pictureId;
-        this.login = login;
-        this.name = name;
+    public Comment(SimpleUser user, String commentData) {
+        this.user = user;
         this.commentData = commentData;
     }
 
     /**
-     * Getter for commentId
+     * Getter for user
      *
-     * @return id of a comment
+     * @return author of a comment
      */
-    public long getCommentId() {
-        return commentId;
-    }
-
-    /**
-     * Getter for pictureId
-     *
-     * @return id of a picture the comment belongs to
-     */
-    public long getPictureId() {
-        return pictureId;
-    }
-
-    /**
-     * Getter for login
-     *
-     * @return login of a user the comment belongs to
-     */
-    public String getLogin() {
-        return login;
-    }
-
-    /**
-     * Getter for name
-     *
-     * @return name of a user the comment belongs to
-     */
-    public String getName() {
-        return name;
+    public SimpleUser getUser() {
+        return user;
     }
 
     /**
@@ -86,5 +40,23 @@ public class Comment {
      */
     public String getCommentData() {
         return commentData;
+    }
+
+    /**
+     * Setter for user
+     *
+     * @param user author of a comment
+     */
+    public void setUser(SimpleUser user) {
+        this.user = user;
+    }
+
+    /**
+     * Setter for commentData
+     *
+     * @param commentData text of a comment
+     */
+    public void setCommentData(String commentData) {
+        this.commentData = commentData;
     }
 }

@@ -1,14 +1,13 @@
 package DAOImpl;
 
+import DAO.CommentDAO;
 import DAO.PictureDAO;
 import DAO.Statements;
-import model.Comment;
-import model.Picture;
+import model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-// TODO: 7/29/2019 rewrite connection logic and closeAll method
 
 /**
  * This class contains all operations with pictures
@@ -18,6 +17,28 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
      * UserDAOImpl instance
      */
     private UserDAOImpl userDAO;
+    /**
+     * CommentDAOIml instance
+     */
+    private CommentDAO commentDAO;
+
+    /**
+     * Getter for commentDAO
+     *
+     * @return CommentDAOImpl instance
+     */
+    public CommentDAO getCommentDAO() {
+        return commentDAO;
+    }
+
+    /**
+     * Setter for commentDAO
+     *
+     * @param commentDAO CommentDAOImpl instance
+     */
+    public void setCommentDAO(CommentDAO commentDAO) {
+        this.commentDAO = commentDAO;
+    }
 
     protected PictureDAOImpl() throws SQLException { // TODO: 7/29/2019 probably should be deleted
     }
@@ -54,8 +75,23 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
             statement = connection.prepareStatement(Statements.GET_PICTURE_BY_ID);
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
-            List<Picture> list = parsePictures(resultSet);
-            return list == null || list.size() == 0 ? null : list.get(0);
+            if (!resultSet.next()) return null;
+            return parsePicture(resultSet);
+        } finally {
+            closeAll();
+        }
+    }
+
+    private Picture parsePicture(ResultSet resultSet) throws SQLException {
+        try {
+            Clob clob = resultSet.getClob(5);
+            return new Picture(
+                    resultSet.getLong(1),
+                    new SimpleUser(
+                            resultSet.getString(2),
+                            resultSet.getString(3)),
+                    resultSet.getDate(4),
+                    clob.getSubString(1, (int) clob.length()));
         } finally {
             closeAll();
         }
@@ -69,13 +105,13 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
      * @throws SQLException when select statement fails
      */
     @Override
-    public List<Picture> getPicturesByUser(String login) throws SQLException {
+    public List<SimplePicture> getSimplePicturesByLogin(String login) throws SQLException {
         try {
             getConnection();
-            statement = connection.prepareStatement(Statements.GET_PICTURE_BY_USER);
+            statement = connection.prepareStatement(Statements.GET_MAIN_PICTURE_DATA_BY_LOGIN);
             statement.setString(1, login);
             resultSet = statement.executeQuery();
-            return parsePictures(resultSet);
+            return parseSimplePictures();
         } finally {
             closeAll();
         }
@@ -116,117 +152,21 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
     }
 
     /**
-     * Gets list of pictures from ResultSet
+     * Gets list of main data for pictures from ResultSet
      *
-     * @param resultSet result of a query
      * @return list of pictures
      * @throws SQLException
      */
-    private List<Picture> parsePictures(ResultSet resultSet) throws SQLException {
-        try {
-            List<Picture> userPictures = new ArrayList<>();
-            if (resultSet != null) { // TODO: 7/29/2019 probably useless check
-                while (resultSet.next()) {
-                    Clob clob = resultSet.getClob(4);
-                    userPictures.add(new Picture(
-                            resultSet.getLong(1),
-                            userDAO.getUserProfile(resultSet.getString(2)),
-                            resultSet.getDate(3),
-                            clob.getSubString(1, (int) clob.length())
-                    ));
-                }
-            }
-            return userPictures;
-        } finally {
-            if (resultSet != null) resultSet.close();
-        }
-    }
-
-    /**
-     * Adds comment to picture
-     *
-     * @param pictureId id of a picture
-     * @param login     login of a author
-     * @param comment   text of a comments
-     * @throws SQLException when insert statement fails
-     */
-    @Override
-    public void addCommentToPicture(long pictureId, String login, String comment) throws SQLException {
-        try {
-            Long parent = getLastCommentForPicture(pictureId);
-            getConnection();
-            statement = connection.prepareStatement(Statements.ADD_COMMENT_TO_PICTURE);
-            statement.setLong(1, pictureId);
-            if (parent != null) {
-                statement.setLong(2, parent.longValue());
-            } else {
-                statement.setNull(2, Types.BIGINT);
-            }
-            statement.setString(3, login);
-            statement.setString(4, comment);
-            statement.execute();
-        } finally {
-            closeAll();
-        }
-    }
-
-    /**
-     * Gets id of the last comment under picture
-     *
-     * @param pictureId id of a picture
-     * @return id of the last comment
-     * @throws SQLException when select statement fails
-     */
-    public Long getLastCommentForPicture(long pictureId) throws SQLException {
-        try {
-            getConnection();
-            statement = connection.prepareStatement(Statements.GET_LAST_COMMENT_FOR_PICTURE);
-            statement.setLong(1, pictureId);
-            resultSet = statement.executeQuery();
-            return resultSet.next() ? resultSet.getLong(1) : null;
-        } finally {
-            closeAll();
-        }
-    }
-
-    /**
-     * Gets all comments under picture
-     *
-     * @param pictureId id of a picture
-     * @return list of comments
-     * @throws SQLException when select statement fails
-     */
-    @Override
-    public List<Comment> getCommentsForPicture(long pictureId) throws SQLException {
-        try {
-            getConnection();
-            statement = connection.prepareStatement(Statements.GET_COMMENTS_FOR_PICTURE);
-            statement.setLong(1, pictureId);
-            resultSet = statement.executeQuery();
-            return parseComments();
-        } finally {
-            closeAll();
-        }
-    }
-
-    /**
-     * Gets list of comments from ResultSet
-     *
-     * @return list of comments
-     * @throws SQLException
-     */
-    private List<Comment> parseComments() throws SQLException {
-        List<Comment> list = new ArrayList<>();
+    private List<SimplePicture> parseSimplePictures() throws SQLException {
+        List<SimplePicture> userPictures = new ArrayList<>();
         while (resultSet.next()) {
-            list.add(new Comment(
+            Clob clob = resultSet.getClob(4);
+            userPictures.add(new SimplePicture(
                     resultSet.getLong(1),
-                    resultSet.getLong(2),
-                    resultSet.getString(3),
-                    resultSet.getString(4),
-                    resultSet.getString(5)
+                    clob.getSubString(1, (int) clob.length())
             ));
         }
-        return list;
+        return userPictures;
     }
 
     /**
@@ -289,6 +229,24 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
             resultSet = statement.executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
+        } finally {
+            closeAll();
+        }
+    }
+
+    /**
+     * Gets picture, its likes and comments by id
+     *
+     * @return PictureModel instance
+     * @throws SQLException when select statement fails
+     */
+    @Override
+    public PictureModel getPictureModelById(long id) throws SQLException {
+        try {
+            return new PictureModel(
+                    getPictureById(id),
+                    countLikes(id),
+                    commentDAO.getCommentsByPictureId(id));
         } finally {
             closeAll();
         }

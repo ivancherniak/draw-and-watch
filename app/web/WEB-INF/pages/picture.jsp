@@ -1,8 +1,11 @@
-<%@ page import="model.Picture" %>
-<%@ page import="model.User" %>
-<%@ page import="model.Comment" %>
-<%@ page import="java.util.List" %>
+<%@ page import="model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    User loggedUser = (User) request.getSession().getAttribute("loggedUser");
+    PictureModel pictureModel = (PictureModel) request.getAttribute("pictureModel");
+    Picture picture = pictureModel.getPicture();
+    SimpleUser paintedBy = picture.getPaintedBy();
+%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -17,17 +20,17 @@
         <tr>
             <td class="path">
                 <a href="/app/home">home</a>/
-                <a href="/app/profile?login=<%=((Picture) request.getAttribute("picture")).getPaintedBy().getLogin()%>">profile</a>/
-                <a href="/app/picture?id=<%=((Picture) request.getAttribute("picture")).getId()%>">picture</a>/
+                <a href="/app/profile?login=<%=paintedBy.getLogin()%>">profile</a>/
+                <a href="/app/picture?id=<%=picture.getId()%>">picture</a>/
             </td>
             <td class="account">
-                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
-                <a href="/app/profile?login=<%=((User) request.getSession().getAttribute("loggedUser")).getLogin()%>">
-                    <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
+                <% if (loggedUser != null) { %>
+                <a href="/app/profile?login=<%=loggedUser.getLogin()%>">
+                    <%=loggedUser.getName()%>
                 </a>
                 <% } %>
                 <a href="/app/canvas">Paint now</a>
-                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                <% if (loggedUser != null) { %>
                 <a href="/app/logout">Logout</a>
                 <% } else { %>
                 <a href="/app/signin">Login</a>
@@ -39,20 +42,20 @@
 <div class="content">
     <h3>Picture</h3>
     <hr>
-    <img src="<%=((Picture) request.getAttribute("picture")).getContent()%>">
+    <img src="<%=picture.getContent()%>">
     <table>
         <tr>
-            <td class="info"><%=((Picture) request.getAttribute("picture")).getCreatedWhen()%></td>
-            <td rowspan="2">Likes: <%=request.getAttribute("likes")%></td>
+            <td class="info"><%=picture.getCreatedWhen()%></td>
+            <td rowspan="2">Likes: <%=pictureModel.getLikes()%></td>
             <td rowspan="2">
                 <form action="likeIt" method="post">
-                    <input type="hidden" name="pictureId" value="<%=((Picture) request.getAttribute("picture")).getId()%>">
+                    <input type="hidden" name="pictureId" value="<%=picture.getId()%>">
                     <input type="submit" value="Like it">
                 </form>
             </td>
         </tr>
         <tr class="info">
-            <td>By: <a href="/app/profile?login=<%=((Picture) request.getAttribute("picture")).getPaintedBy().getLogin()%>"><%=((Picture) request.getAttribute("picture")).getPaintedBy().getName()%></a></td>
+            <td>By: <a href="/app/profile?login=<%=paintedBy.getLogin()%>"><%=paintedBy.getName()%></a></td>
         </tr>
         <tr>
             <td colspan="3">
@@ -60,16 +63,19 @@
                     <hr>
                     Leave a comment:<br>
                     <textarea name="comment"></textarea>
-                    <input type="hidden" name="pictureId" value="<%=((Picture) request.getAttribute("picture")).getId()%>"><br>
+                    <input type="hidden" name="pictureId" value="<%=picture.getId()%>"><br>
                     <input type="submit" value="Post">
                 </form>
             </td>
         </tr>
-        <% for (Comment comment : (List<Comment>) request.getAttribute("comments")) { %>
+        <%
+            for (Comment comment : pictureModel.getComments()) {
+                SimpleUser author = comment.getUser();
+        %>
         <tr>
             <td colspan="3" class="info">
                 <hr>
-                <a href="/app/profile?login=<%=comment.getLogin()%>"><%=comment.getName()%>:</a><br><br>
+                <a href="/app/profile?login=<%=author.getLogin()%>"><%=author.getName()%>:</a><br><br>
                 <%=comment.getCommentData()%>
             </td>
         </tr>

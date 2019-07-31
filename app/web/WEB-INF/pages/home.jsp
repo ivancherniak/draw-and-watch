@@ -1,7 +1,9 @@
 <%@ page import="model.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="model.SimpleUser" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<% User loggedUser = (User) request.getSession().getAttribute("loggedUser"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,13 +19,13 @@
         <tr>
             <td class="path"><a href="/app/home">home</a>/</td>
             <td class="account">
-                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
-                <a href="/app/profile?login=<%=((User) request.getSession().getAttribute("loggedUser")).getLogin()%>">
-                    <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
+                <% if (loggedUser != null) { %>
+                <a href="/app/profile?login=<%=loggedUser.getLogin()%>">
+                    <%=loggedUser.getName()%>
                 </a>
                 <% } %>
                 <a href="/app/canvas">Paint now</a>
-                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                <% if (loggedUser != null) { %>
                 <a href="/app/logout">Logout</a>
                 <% } else { %>
                 <a href="/app/signin">Login</a>
@@ -34,13 +36,13 @@
 </div>
 <div class="content">
     <%
-        List <User> list = (List<User>) request.getAttribute("favourites");
-        if (list != null && list.size() != 0) {
+        List <SimpleUser> users = (List<SimpleUser>) request.getAttribute("favourites");
+        if (users != null && users.size() != 0) {
     %>
     <h3>Favourite profiles</h3>
     <hr>
     <div class="profile">
-        <% for (User user : list) { %>
+        <% for (SimpleUser user : users) { %>
         <div>
             <a href="/app/profile?login=<%=user.getLogin()%>">
                 <p><img src="static/profilePhotos/photo.png"/><p>
@@ -57,11 +59,11 @@
     <% } else { %>
     <div class="profile">
         <%
-            List<User> users = (List<User>) request.getAttribute("allUsers");
+            users = (List<SimpleUser>) request.getAttribute("allUsers");
             if (users.size() == 0) { %>
         There are no users
         <% } else {
-            	for (User user: (List<User>) request.getAttribute("allUsers")) { %>
+            	for (SimpleUser user: users) { %>
         <div>
             <a href="/app/profile?login=<%=user.getLogin()%>">
                 <p><img src="static/profilePhotos/photo.png"><p>

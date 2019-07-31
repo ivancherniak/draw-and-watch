@@ -2,6 +2,10 @@
 <%@ page import="model.Picture" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    User loggedUser = (User) request.getAttribute("userProfile");
+    User userProfile = (User) request.getAttribute("userProfile");
+%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -16,16 +20,16 @@
         <tr>
             <td class="path">
                 <a href="/app/home">home</a>/
-                <a href="/app/profile?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">profile</a>/
+                <a href="/app/profile?login=<%=loggedUser.getLogin()%>">profile</a>/
             </td>
             <td class="account">
-                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
-                <a href="/app/profile?login=<%=((User) request.getSession().getAttribute("loggedUser")).getLogin()%>">
-                    <%=((User) request.getSession().getAttribute("loggedUser")).getName()%>
+                <% if (loggedUser != null) { %>
+                <a href="/app/profile?login=<%=loggedUser.getLogin()%>">
+                    <%=loggedUser.getName()%>
                 </a>
                 <% } %>
                 <a href="/app/canvas">Paint now</a>
-                <% if (request.getSession().getAttribute("loggedUser") != null) { %>
+                <% if (loggedUser != null) { %>
                 <a href="/app/logout">Logout</a>
                 <% } else { %>
                 <a href="/app/signin">Login</a>
@@ -42,21 +46,19 @@
             <table>
                 <tr>
                     <td><img src="static/profilePhotos/photo.png"></td>
-                    <% if (request.getSession().getAttribute("loggedUser") != null && !((User) request.getAttribute("userProfile")).getLogin().equals(((User) request.getSession().getAttribute("loggedUser")).getLogin())) { %>
+                    <% if (loggedUser != null && !userProfile.getLogin().equals(loggedUser.getLogin())) { %>
                     <td>
-                        <% if ((boolean) request.getAttribute("isProfileInFavourites")) { %>
-                        <a href="addToFavourites?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">
+                        <a href="addToFavourites?login=<%=userProfile.getLogin()%>">
+                            <% if ((boolean) request.getAttribute("isProfileInFavourites")) { %>
                             <input type="button" value="Delete from favourites">
-                        </a>
-                        <% } else { %>
-                        <a href="addToFavourites?login=<%=((User) request.getAttribute("userProfile")).getLogin()%>">
+                            <% } else { %>
                             <input type="button" value="Add to favourites">
+                            <% } %>
                         </a>
-                        <% } %>
                     </td>
                     <% } %>
                 </tr>
-                <tr class="username"><td><%=((User) request.getAttribute("userProfile")).getName()%></td></tr>
+                <tr class="username"><td><%=userProfile.getName()%></td></tr>
             </table>
         </div>
     </div>

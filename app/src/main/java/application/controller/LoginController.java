@@ -2,6 +2,7 @@ package application.controller;
 
 import DAOImpl.UserDAOImpl;
 import model.User;
+import model.UserLoginModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,10 +35,11 @@ public class LoginController {
 
     // TODO: 7/29/2019 add javadoc after refactor
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public String doLogin(@ModelAttribute("user") User user, ModelMap model) { // TODO: 7/29/2019 replace ModelAttribute parameter with RequestParam parameters
+    public String doLogin(@ModelAttribute("user") UserLoginModel user, ModelMap model) { // TODO: 7/29/2019 replace ModelAttribute parameter with RequestParam parameters
         try {
-            if (userDAO.isUserExists(user, model)) {
-                model.put("loggedUser", user);
+            User loggedUser;
+            if ((loggedUser = userDAO.getUserByLoginAndPassword(user, model)) != null) {
+                model.put("loggedUser", loggedUser);
                 return "redirect:/home";
             }
         } catch (SQLException e) {

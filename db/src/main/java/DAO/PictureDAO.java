@@ -2,6 +2,8 @@ package DAO;
 
 import model.Comment;
 import model.Picture;
+import model.PictureModel;
+import model.SimplePicture;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,7 +20,7 @@ public interface PictureDAO {
      * @return list of pictures
      * @throws SQLException when select statement fails
      */
-    List<Picture> getPicturesByUser(String login) throws SQLException;
+    List<SimplePicture> getSimplePicturesByLogin(String login) throws SQLException;
 
     List<Picture> getFavoritesPictures(String userName) throws SQLException;
 
@@ -33,25 +35,6 @@ public interface PictureDAO {
     void savePicture(String login, long createdWhen, String content) throws SQLException;
 
     void deletePicture(long id) throws SQLException;
-
-    /**
-     * Adds comment to picture
-     *
-     * @param pictureId id of a picture
-     * @param login     login of a author
-     * @param comment   text of a comments
-     * @throws SQLException when insert statement fails
-     */
-    void addCommentToPicture(long pictureId, String login, String comment) throws SQLException;
-
-    /**
-     * Gets all comments under picture
-     *
-     * @param pictureId id of a picture
-     * @return list of comments
-     * @throws SQLException when select statement fails
-     */
-    List<Comment> getCommentsForPicture(long pictureId) throws SQLException;
 
     /**
      * Adds like to picture. If the picture is already likes, then it removes like
@@ -78,4 +61,11 @@ public interface PictureDAO {
      * @throws SQLException when select statement fails
      */
     Picture getPictureById(long id) throws SQLException;
+
+    /**
+     * Gets picture, its likes and comments by id
+     * @return PictureModel instance
+     * @throws SQLException when select statement fails
+     */
+    PictureModel getPictureModelById(long id) throws SQLException;
 }

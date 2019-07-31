@@ -1,7 +1,7 @@
 package application.controller;
 
+import DAOImpl.CommentDAOImpl;
 import DAOImpl.PictureDAOImpl;
-import model.Picture;
 import model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +24,11 @@ public class PictureController {
     private PictureDAOImpl pictureDAO;
 
     /**
+     * CommentDAOImpl instance
+     */
+    private CommentDAOImpl commentDAO;
+
+    /**
      * Setter for PictureDAOImpl instance
      *
      * @param pictureDAO PictureDAOImpl instance
@@ -33,25 +38,47 @@ public class PictureController {
     }
 
     /**
+     * Getter for pictureDAO
+     *
+     * @return PictureDAOImpl instance
+     */
+    public PictureDAOImpl getPictureDAO() {
+        return pictureDAO;
+    }
+
+    /**
+     * Getter for commentDAO
+     *
+     * @return CommentDAOImpl instance
+     */
+    public CommentDAOImpl getCommentDAO() {
+        return commentDAO;
+    }
+
+    /**
+     * Setter for commentDAO
+     *
+     * @param commentDAO CommentDAOImpl instance
+     */
+    public void setCommentDAO(CommentDAOImpl commentDAO) {
+        this.commentDAO = commentDAO;
+    }
+
+    /**
      * Prints Picture page
      *
-     * @param pictureId id of the picture
+     * @param id    id of the picture
      * @param model
      * @return name of a page to render
      */
     @RequestMapping(value = "/picture", method = RequestMethod.GET)
-    public String goToPicture(@RequestParam(value = "id") long pictureId, ModelMap model) {
-        Picture pic;
+    public String goToPicture(@RequestParam(value = "id") long id, ModelMap model) {
         try {
-            pic = pictureDAO.getPictureById(pictureId);
-            model.put("comments", pictureDAO.getCommentsForPicture(pictureId));
-            model.put("likes", pictureDAO.countLikes(pictureId));
+            model.put("pictureModel", pictureDAO.getPictureModelById(id));
         } catch (SQLException e) {
             // TODO: 28.07.2019 add logger
             return "redirect:/errorPage";
         }
-        if (pic == null) return "redirect:/errorPage"; // TODO: 7/29/2019 check this case. It may never happen
-        model.put("picture", pic);
         return "picture";
     }
 
@@ -67,7 +94,7 @@ public class PictureController {
     public String doComment(@RequestParam(value = "comment") String comment, @RequestParam(value = "pictureId") long pictureId, ModelMap model) {
         if (!model.containsKey("loggedUser")) return "redirect:/signin";
         try {
-            pictureDAO.addCommentToPicture(pictureId, ((User) model.get("loggedUser")).getLogin(), comment);
+            commentDAO.addCommentToPicture(pictureId, ((User) model.get("loggedUser")).getLogin(), comment);
         } catch (SQLException e) {
             // TODO: 28.07.2019 add logger
             return "redirect:/errorPage";
