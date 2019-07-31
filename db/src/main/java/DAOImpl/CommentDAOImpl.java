@@ -5,6 +5,8 @@ import DAO.Statements;
 import model.Comment;
 import model.SimpleUser;
 
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class CommentDAOImpl extends BaseDAO implements CommentDAO {
             if (parent != null) {
                 statement.setLong(2, parent.longValue());
             } else {
-                statement.setNull(2, Types.BIGINT);
+                statement.setNull(2, Types.DECIMAL);
             }
             statement.setString(3, login);
             statement.setString(4, comment);

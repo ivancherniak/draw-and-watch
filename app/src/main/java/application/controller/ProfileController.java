@@ -57,7 +57,7 @@ public class ProfileController {
             login = user.getLogin(); // TODO: 7/30/2019 rewrite logic
         }
         try {
-            String lgn = user.getLogin();
+            String lgn = user != null ? user.getLogin() : null;
             model.put("userProfile", lgn != null && lgn.equals(login) ? user : userDAO.getSimpleUserByLogin(login));
             model.put("isProfileInFavourites", user != null && userDAO.isProfileInFavourites(lgn, login));
             model.put("userPictures", pictureDAO.getSimplePicturesByLogin(login));

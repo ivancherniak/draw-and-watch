@@ -56,8 +56,9 @@ public class LoginController {
      * @return name of a page to render
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String doLogout(SessionStatus status) {
+    public String doLogout(SessionStatus status, ModelMap model) {
         status.setComplete();
+        model.put("loggedUser", null);
         return "redirect:/home";
     }
 }

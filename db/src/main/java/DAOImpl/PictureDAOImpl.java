@@ -160,7 +160,7 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
     private List<SimplePicture> parseSimplePictures() throws SQLException {
         List<SimplePicture> userPictures = new ArrayList<>();
         while (resultSet.next()) {
-            Clob clob = resultSet.getClob(4);
+            Clob clob = resultSet.getClob(2);
             userPictures.add(new SimplePicture(
                     resultSet.getLong(1),
                     clob.getSubString(1, (int) clob.length())

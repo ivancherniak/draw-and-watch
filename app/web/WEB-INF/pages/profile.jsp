@@ -1,10 +1,12 @@
 <%@ page import="model.User" %>
 <%@ page import="model.Picture" %>
 <%@ page import="java.util.List" %>
+<%@ page import="model.SimpleUser" %>
+<%@ page import="model.SimplePicture" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    User loggedUser = (User) request.getAttribute("userProfile");
-    User userProfile = (User) request.getAttribute("userProfile");
+    User loggedUser = (User) request.getAttribute("loggedUser");
+    SimpleUser userProfile = (SimpleUser) request.getAttribute("userProfile");
 %>
 <html>
 <head>
@@ -20,7 +22,7 @@
         <tr>
             <td class="path">
                 <a href="/app/home">home</a>/
-                <a href="/app/profile?login=<%=loggedUser.getLogin()%>">profile</a>/
+                <a href="/app/profile?login=<%=userProfile.getLogin()%>">profile</a>/
             </td>
             <td class="account">
                 <% if (loggedUser != null) { %>
@@ -46,7 +48,7 @@
             <table>
                 <tr>
                     <td><img src="static/profilePhotos/photo.png"></td>
-                    <% if (loggedUser != null && !userProfile.getLogin().equals(loggedUser.getLogin())) { %>
+                    <% if (loggedUser == null || !userProfile.getLogin().equals(loggedUser.getLogin())) { %>
                     <td>
                         <a href="addToFavourites?login=<%=userProfile.getLogin()%>">
                             <% if ((boolean) request.getAttribute("isProfileInFavourites")) { %>
@@ -62,12 +64,12 @@
             </table>
         </div>
     </div>
-    <% List<Picture> pictures = (List<Picture>) request.getAttribute("userPictures");
+    <% List<SimplePicture> pictures = (List<SimplePicture>) request.getAttribute("userPictures");
     if (pictures.size() != 0) { %>
     <h3>Pictures</h3>
     <hr>
     <div class="profile">
-        <% for (Picture picture : pictures) { %>
+        <% for (SimplePicture picture : pictures) { %>
         <div>
             <a href="/app/picture?id=<%=picture.getId()%>">
                 <p><img src="<%=picture.getContent()%>"><p>

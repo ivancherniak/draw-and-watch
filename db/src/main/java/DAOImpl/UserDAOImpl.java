@@ -207,8 +207,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
             statement = connection.prepareStatement(Statements.GET_MAIN_USER_DATA_BY_LOGIN);
             statement.setString(1, login);
             resultSet = statement.executeQuery();
-            List<SimpleUser> list = parseUsers();
-            return list.size() == 0 ? null : list.get(0);
+            return resultSet.next() ? new SimpleUser(login, resultSet.getString(1)) : null;
         } finally {
             closeAll();
         }

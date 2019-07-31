@@ -39,6 +39,7 @@
 
     <bean id="pictureDAOImpl" class="DAOImpl.PictureDAOImpl" parent="baseDAO">
         <property name="userDAO" ref="userDAOImpl"/>
+        <property name="commentDAO" ref="commentDAOImpl"/>
     </bean>
 
     <bean id="registrationController" class="application.controller.RegistrationController">
@@ -61,7 +62,10 @@
 
     <bean id="pictureController" class="application.controller.PictureController">
         <property name="pictureDAO" ref="pictureDAOImpl"/>
+        <property name="commentDAO" ref="commentDAOImpl"/>
     </bean>
+
+    <bean id="commentDAOImpl" class="DAOImpl.CommentDAOImpl" parent="baseDAO"/>
 
     <mvc:resources mapping="/static/**" location="static/"/>
     <mvc:annotation-driven/>
