@@ -1,6 +1,5 @@
 package DAO;
 
-import model.Comment;
 import model.Picture;
 import model.PictureModel;
 import model.SimplePicture;

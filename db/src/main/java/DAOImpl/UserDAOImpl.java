@@ -6,6 +6,7 @@ import model.SimpleUser;
 import model.User;
 import model.UserLoginModel;
 import model.UserRegistrationModel;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.ModelMap;
 
 import java.sql.Connection;
@@ -70,7 +71,7 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
                 statement.setString(1, user.getLogin());
                 statement.setString(2, user.getName());
                 statement.setString(3, user.getPassword());
-                return statement.execute();
+                return !statement.execute();
             }
             return false;
         } finally {
@@ -179,15 +180,15 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
     public User getUserByLoginAndPassword(UserLoginModel user, ModelMap model) throws SQLException {
         try {
             getConnection();
-            statement = connection.prepareStatement(Statements.GET_USER_DATA_BY_LOGIN_AND_PASSWORD);
+            statement = connection.prepareStatement(Statements.GET_USER_DATA_BY_LOGIN);
             statement.setString(1, user.getLogin());
-            statement.setString(2, user.getPassword());
             resultSet = statement.executeQuery();
-            if (!resultSet.next()) {
+            String pass;
+            if (!resultSet.next() || !new BCryptPasswordEncoder().matches(user.getPassword(), pass = resultSet.getString(2))) {
                 model.put("invalidUser", "Incorrect login or password");
                 return null;
             }
-            return new User(user.getLogin(), resultSet.getString(1), user.getPassword());
+            return new User(user.getLogin(), resultSet.getString(1), pass);
         } finally {
             closeAll();
         }

@@ -28,4 +28,5 @@ public class Statements {
     public static final String COUNT_LIKES = "SELECT count(*) FROM picture_likes WHERE picture_id = ?";
     public static final String IS_PROFILE_IN_FAVOURITES = "SELECT count(*) FROM favourite_profiles WHERE login = ? AND likes = ?";
     public static final String GET_USER_DATA_BY_LOGIN_AND_PASSWORD = "SELECT name FROM users WHERE login = ? AND password = ?";
+    public static final String GET_USER_DATA_BY_LOGIN = "SELECT name, password FROM users WHERE login = ?";
 }

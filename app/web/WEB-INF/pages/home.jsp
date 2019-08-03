@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="header">
-    <h1>Header</h1>
+    <h1>Draw and watch</h1>
     <table>
         <tr>
             <td class="path"><a href="/app/home">home</a>/</td>

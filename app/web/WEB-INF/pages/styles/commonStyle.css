@@ -13,7 +13,7 @@ body {
 	background: #283139;
 }
 
-.header, .header .path a, .account a {
+.header, .header .path a, .account a, .header td {
 	color: white;
 }
 
@@ -54,10 +54,12 @@ table {
 
 .profile {
 	display: flex;
+	flex-wrap: wrap;
 }
 
 .profile div {
 	margin: 10px;
+	border: 1px solid #9095a0;
 }
 
 hr {
@@ -77,4 +79,8 @@ h3 {
 .errorMsg {
 	color: red;
 	font-size: 15px;
+}
+
+.profile div:hover {
+	border: 1px solid black;
 }
