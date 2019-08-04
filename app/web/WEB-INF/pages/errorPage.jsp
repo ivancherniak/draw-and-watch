@@ -18,7 +18,7 @@
     </table>
 </div>
 <div class="content">
-    <h6>System cannot perform this operation. Please, contact administrator.</h6>
+    <h3 class="errorMsg">System cannot perform this operation. Please, contact administrator.</h3>
 </div>
 </body>
 </html>

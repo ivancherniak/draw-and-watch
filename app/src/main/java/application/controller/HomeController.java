@@ -82,7 +82,7 @@ public class HomeController {
         }
         return "jdbc-test";
     }
-    @RequestMapping(value = "/errorPage")
+    @RequestMapping(value = {"/errorPage", "*"})
     public String showErrorPage(ModelMap model){
         return "errorPage";
     }
