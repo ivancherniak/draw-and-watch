@@ -2,6 +2,7 @@ package application.controller;
 
 import DAOImpl.UserDAOImpl;
 import model.User;
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +18,10 @@ import java.sql.SQLException;
 @Controller
 @SessionAttributes(value = "loggedUser")
 public class HomeController {
+    /**
+     * Logger object
+     */
+    private static final Logger logger = Logger.getLogger(HomeController.class);
     /**
      * JdbcTemplate instance
      */
@@ -58,8 +63,8 @@ public class HomeController {
                 model.put("favourites", userDAO.getFavouriteProfiles(((User) model.get("loggedUser")).getLogin()));
             }
         } catch (SQLException e) {
-            // TODO: 27.07.2019 add logger
             model.put("SQLError", "Error while trying to get all users");
+            logger.error("Error while trying to get all users", e);
         }
         return "home";
     }
@@ -71,19 +76,12 @@ public class HomeController {
         return "signin"; // TODO: 7/29/2019 replace signin with redirect:/signin
     }
 
-
-    // TODO: 7/29/2019 DELETE THIS METHOD
-    @RequestMapping(value = "/jdbc", method = RequestMethod.GET)
-    public String jdbcTest(ModelMap model) {
-        try {
-            model.addAttribute("result", jdbcTemplate.getDataSource().getConnection().getSchema());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return "jdbc-test";
-    }
+    /**
+     * Prints error page
+     * @return name of a page to print
+     */
     @RequestMapping(value = {"/errorPage", "*"})
-    public String showErrorPage(ModelMap model){
+    public String showErrorPage(){
         return "errorPage";
     }
 }

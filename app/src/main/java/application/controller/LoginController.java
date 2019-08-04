@@ -3,6 +3,7 @@ package application.controller;
 import DAOImpl.UserDAOImpl;
 import model.User;
 import model.UserLoginModel;
+import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +21,10 @@ import java.sql.SQLException;
 @Controller
 @SessionAttributes(value = "loggedUser")
 public class LoginController {
+	/**
+	 * Logger object
+	 */
+	private static final Logger logger = Logger.getLogger(LoginController.class);
 	/**
 	 * UserDAOImpl instance
 	 */
@@ -47,11 +52,12 @@ public class LoginController {
 			User loggedUser;
 			if ((loggedUser = userDAO.getUserByLoginAndPassword(user, model)) != null) {
 				model.put("loggedUser", loggedUser);
+				logger.info("User " + loggedUser.getLogin() + " has singed in");
 				return "redirect:/home";
 			}
 		} catch (SQLException e) {
-			model.addAttribute("SQLError", "Error while trying to register user. <br>Please try again");
-			// TODO: 21.07.2019 add logger
+			model.addAttribute("SQLError", "Error while trying to login. <br>Please try again");
+			logger.error("Error while trying to login: " + user, e);
 		}
 		return "signin";
 	}
@@ -66,6 +72,7 @@ public class LoginController {
 	public String doLogout(SessionStatus status, ModelMap model) {
 		status.setComplete();
 		model.put("loggedUser", null);
+		logger.info("User " + ((User) model.get("loggedUser")).getLogin() + " has logged out");
 		return "redirect:/home";
 	}
 }

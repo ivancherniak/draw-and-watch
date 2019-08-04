@@ -48,4 +48,14 @@ public class UserRegistrationModel extends UserLoginModel {
     public void setRepeatPassword(String repeatPassword) {
         this.repeatPassword = repeatPassword;
     }
+
+    @Override
+    public String toString() {
+        return "UserRegistrationModel{" +
+                "name='" + name + '\'' +
+                ", repeatPassword='" + repeatPassword + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

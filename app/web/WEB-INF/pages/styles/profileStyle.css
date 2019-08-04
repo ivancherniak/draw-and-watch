@@ -32,3 +32,7 @@ td input:hover {
 	height: 0;
 	text-align: center;
 }
+
+.noBorder div, .noBorder div:hover {
+	border: none;
+}

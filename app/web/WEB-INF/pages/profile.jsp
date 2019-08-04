@@ -1,5 +1,4 @@
 <%@ page import="model.User" %>
-<%@ page import="model.Picture" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.SimpleUser" %>
 <%@ page import="model.SimplePicture" %>
@@ -43,7 +42,7 @@
 <div class="content">
     <h3>Profile</h3>
     <hr>
-    <div class="profile">
+    <div class="profile noBorder">
         <div>
             <table>
                 <tr>

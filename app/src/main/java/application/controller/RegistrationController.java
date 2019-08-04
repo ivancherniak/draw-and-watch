@@ -3,6 +3,7 @@ package application.controller;
 import DAOImpl.UserDAOImpl;
 import model.User;
 import model.UserRegistrationModel;
+import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +21,10 @@ import java.sql.SQLException;
 @SessionAttributes(value = "loggedUser")
 public class RegistrationController {
 	/**
+	 * Logger object
+	 */
+	private static final Logger logger = Logger.getLogger(RegistrationController.class);
+	/**
 	 * UserDAOImpl instance
 	 */
 	private UserDAOImpl userDAO;
@@ -31,12 +36,6 @@ public class RegistrationController {
 	 */
 	public void setUserDAO(UserDAOImpl userDAO) {
 		this.userDAO = userDAO;
-	}
-
-	// TODO: 7/29/2019 DELETE THIS METHOD
-	@ModelAttribute("Money")
-	public User getLoggedUser() {
-		return null; //or however you create a default
 	}
 
 	/**
@@ -65,11 +64,12 @@ public class RegistrationController {
 						user.getLogin(),
 						user.getName(),
 						user.getPassword()));
+				logger.info("User " + user.getLogin() + " has been registered");
 				return "redirect:/home";
 			}
 		} catch (SQLException e) {
 			model.addAttribute("SQLError", "Error while trying to register user. <br>Please try again");
-			// TODO: 20.07.2019 add logger
+			logger.error("Error while trying to register user: " + user, e);
 		}
 		return "registration";
 	}

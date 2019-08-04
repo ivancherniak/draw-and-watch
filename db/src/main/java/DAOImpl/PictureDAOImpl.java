@@ -40,9 +40,6 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
         this.commentDAO = commentDAO;
     }
 
-    protected PictureDAOImpl() throws SQLException { // TODO: 7/29/2019 probably should be deleted
-    }
-
     /**
      * Setter for userDAO
      *
@@ -117,11 +114,6 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
         }
     }
 
-    @Override
-    public List<Picture> getFavoritesPictures(String userName) throws SQLException {
-        return null;
-    }
-
     /**
      * Saves picture to database
      *
@@ -132,9 +124,10 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
      */
     @Override
     public void savePicture(String login, long createdWhen, String content) throws SQLException {
+        Clob imgClob = null;
         try {
             getConnection();
-            Clob imgClob = connection.createClob(); // TODO: 7/30/2019 probably free() method should be called in finally block to release clob
+            imgClob = connection.createClob();
             imgClob.setString(1, content);
             statement = connection.prepareStatement(Statements.SAVE_PICTURE);
             statement.setString(1, login);
@@ -142,13 +135,9 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
             statement.setClob(3, imgClob);
             statement.execute();
         } finally {
+            if (imgClob != null) imgClob.free();
             closeAll();
         }
-    }
-
-    @Override
-    public void deletePicture(long id) throws SQLException {
-
     }
 
     /**

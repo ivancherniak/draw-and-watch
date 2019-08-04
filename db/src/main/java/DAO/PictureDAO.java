@@ -21,8 +21,6 @@ public interface PictureDAO {
      */
     List<SimplePicture> getSimplePicturesByLogin(String login) throws SQLException;
 
-    List<Picture> getFavoritesPictures(String userName) throws SQLException;
-
     /**
      * Saves picture to database
      *
@@ -32,8 +30,6 @@ public interface PictureDAO {
      * @throws SQLException when insert statement fails
      */
     void savePicture(String login, long createdWhen, String content) throws SQLException;
-
-    void deletePicture(long id) throws SQLException;
 
     /**
      * Adds like to picture. If the picture is already likes, then it removes like

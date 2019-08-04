@@ -2,6 +2,7 @@ package application.controller;
 
 import DAOImpl.PictureDAOImpl;
 import model.User;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,10 @@ import java.sql.SQLException;
 @Controller
 @SessionAttributes(value = "loggedUser")
 public class CanvasController {
+    /**
+     * Logger object
+     */
+    private static final Logger logger = Logger.getLogger(CanvasController.class);
     /**
      * PictureDAOImpl instance
      */
@@ -66,8 +71,7 @@ public class CanvasController {
         try {
             pictureDAO.savePicture(user.getLogin(), new Date().getTime(), request.getParameter("imageBase64Value"));
         } catch (SQLException e) {
-            e.printStackTrace();
-            //TODO add logger
+            logger.error("Error while trying to save image", e);
         }
         return "redirect:/profile?login=" + user.getLogin();
     }
