@@ -75,4 +75,14 @@ public class LoginController {
 		logger.info("User " + ((User) model.get("loggedUser")).getLogin() + " has logged out");
 		return "redirect:/home";
 	}
+
+	/**
+	 * Redirects to signin page
+	 *
+	 * @return name of a page to render
+	 */
+	@RequestMapping(value = {"/login", "signin"}, method = RequestMethod.GET)
+	public String goToSingin() {
+		return "redirect:/signin";
+	}
 }

@@ -69,13 +69,6 @@ public class HomeController {
         return "home";
     }
 
-    // TODO: 7/29/2019 add javadoc after refactor
-    // TODO: 7/29/2019 move this method to LoginController
-    @RequestMapping(value = {"/login", "signin"}, method = RequestMethod.GET)
-    public String printTest() { // TODO: 7/29/2019 rename the method
-        return "signin"; // TODO: 7/29/2019 replace signin with redirect:/signin
-    }
-
     /**
      * Prints error page
      * @return name of a page to print
