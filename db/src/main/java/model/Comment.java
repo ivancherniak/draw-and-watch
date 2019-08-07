@@ -25,15 +25,6 @@ public class Comment {
     }
 
     /**
-     * Getter for user
-     *
-     * @return author of a comment
-     */
-    public SimpleUser getUser() {
-        return user;
-    }
-
-    /**
      * Getter for commentData
      *
      * @return text of the comment

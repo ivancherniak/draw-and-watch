@@ -132,8 +132,8 @@ public class UserDAOImpl extends BaseDAO implements UserDAO {
      */
     @Override
     public void addProfileToFavourites(String login, String likes) throws SQLException {
+        boolean isInFavourites = isProfileInFavourites(login, likes);
         try {
-            boolean isInFavourites = isProfileInFavourites(login, likes);
             getConnection();
             statement = connection.prepareStatement(isInFavourites
                     ? Statements.DELETE_PROFILE_FROM_FAVOURITES
