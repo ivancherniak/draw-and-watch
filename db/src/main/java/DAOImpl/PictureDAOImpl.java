@@ -1,6 +1,5 @@
 package DAOImpl;
 
-import DAO.CommentDAO;
 import DAO.PictureDAO;
 import DAO.Statements;
 import model.*;
@@ -20,14 +19,14 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
 	/**
 	 * CommentDAOIml instance
 	 */
-	private CommentDAO commentDAO;
+	private CommentDAOImpl commentDAO;
 
 	/**
 	 * Getter for commentDAO
 	 *
 	 * @return CommentDAOImpl instance
 	 */
-	public CommentDAO getCommentDAO() {
+	public CommentDAOImpl getCommentDAO() {
 		return commentDAO;
 	}
 
@@ -36,7 +35,7 @@ public class PictureDAOImpl extends BaseDAO implements PictureDAO {
 	 *
 	 * @param commentDAO CommentDAOImpl instance
 	 */
-	public void setCommentDAO(CommentDAO commentDAO) {
+	public void setCommentDAO(CommentDAOImpl commentDAO) {
 		this.commentDAO = commentDAO;
 	}
 
