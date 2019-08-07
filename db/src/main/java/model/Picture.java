@@ -48,15 +48,6 @@ public class Picture extends SimplePicture {
     }
 
     /**
-     * Setter for paintedBy
-     *
-     * @param paintedBy who painted a picture
-     */
-    public void setPaintedBy(User paintedBy) {
-        this.paintedBy = paintedBy;
-    }
-
-    /**
      * Setter for createdWhen
      *
      * @param createdWhen when the picture was created
