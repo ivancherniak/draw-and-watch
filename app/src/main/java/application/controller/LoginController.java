@@ -71,8 +71,8 @@ public class LoginController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String doLogout(SessionStatus status, ModelMap model) {
 		status.setComplete();
-		model.put("loggedUser", null);
 		logger.info("User " + ((User) model.get("loggedUser")).getLogin() + " has logged out");
+		model.put("loggedUser", null);
 		return "redirect:/home";
 	}
 
@@ -81,8 +81,8 @@ public class LoginController {
 	 *
 	 * @return name of a page to render
 	 */
-	@RequestMapping(value = {"/login", "signin"}, method = RequestMethod.GET)
+	@RequestMapping(value = "signin", method = RequestMethod.GET)
 	public String goToSingin() {
-		return "redirect:/signin";
+		return "signin";
 	}
 }
