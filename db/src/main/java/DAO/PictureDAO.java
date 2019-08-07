@@ -6,7 +6,6 @@ import model.SimplePicture;
 
 import java.sql.SQLException;
 import java.util.List;
-// TODO: 7/29/2019 delete unused methods
 
 /**
  * base methods for picture DAO
