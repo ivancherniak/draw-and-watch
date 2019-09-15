@@ -50,4 +50,13 @@ public class Comment {
     public void setCommentData(String commentData) {
         this.commentData = commentData;
     }
+
+    /**
+     * Getter for user
+     *
+     * @return author of a comment
+     */
+    public SimpleUser getUser() {
+        return user;
+    }
 }

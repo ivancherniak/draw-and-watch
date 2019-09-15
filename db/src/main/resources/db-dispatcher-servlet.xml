@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="JDBC-DS-NC-lab3"/>
+        <property name="resourceRef" value="true"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="baseDAO" class="DAOImpl.BaseDAO" abstract="true">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="userDAOImpl" class="DAOImpl.UserDAOImpl" parent="baseDAO"/>
+
+    <bean id="pictureDAOImpl" class="DAOImpl.PictureDAOImpl" parent="baseDAO">
+        <property name="userDAO" ref="userDAOImpl"/>
+        <property name="commentDAO" ref="commentDAOImpl"/>
+    </bean>
+
+    <bean id="commentDAOImpl" class="DAOImpl.CommentDAOImpl" parent="baseDAO"/>
+</beans>
