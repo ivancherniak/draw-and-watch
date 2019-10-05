@@ -45,6 +45,10 @@
         <property name="commentDAO" ref="commentDAOImpl"/>
     </bean>
 
+    <bean id="loadTablesService" class="application.services.LoadTablesService" init-method="loadTables" lazy-init="false">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
     <mvc:resources mapping="/static/**" location="static/"/>
     <mvc:annotation-driven/>
 </beans>
