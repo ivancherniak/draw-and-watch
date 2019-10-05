@@ -1,7 +1,7 @@
 <%@ page import="model.User" %>
 <%@ page import="java.util.List" %>
-<%@ page import="model.SimpleUser" %>
-<%@ page import="model.SimplePicture" %>
+<%@ page import="services.SimpleUser" %>
+<%@ page import="services.SimplePicture" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     User loggedUser = (User) request.getAttribute("loggedUser");

@@ -1,6 +1,6 @@
 <%@ page import="model.User" %>
 <%@ page import="java.util.List" %>
-<%@ page import="model.SimpleUser" %>
+<%@ page import="services.SimpleUser" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% User loggedUser = (User) request.getSession().getAttribute("loggedUser"); %>

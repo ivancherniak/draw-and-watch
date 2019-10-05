@@ -2,9 +2,8 @@ package application.controller;
 
 import DAOImpl.UserDAOImpl;
 import model.User;
-import model.UserLoginModel;
+import services.UserLoginModel;
 import org.apache.log4j.Logger;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;

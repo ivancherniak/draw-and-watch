@@ -1,4 +1,7 @@
-package model;
+package services;
+
+import model.Comment;
+import model.Picture;
 
 import java.util.List;
 

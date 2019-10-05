@@ -1,5 +1,7 @@
 package model;
 
+import services.SimpleUser;
+
 /**
  * This class contains the whole information about users
  */

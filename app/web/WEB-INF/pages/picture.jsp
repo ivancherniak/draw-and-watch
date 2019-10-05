@@ -1,4 +1,6 @@
 <%@ page import="model.*" %>
+<%@ page import="services.PictureModel" %>
+<%@ page import="services.SimpleUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     User loggedUser = (User) request.getSession().getAttribute("loggedUser");

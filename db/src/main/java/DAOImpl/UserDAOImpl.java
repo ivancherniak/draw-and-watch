@@ -2,15 +2,13 @@ package DAOImpl;
 
 import DAO.Statements;
 import DAO.UserDAO;
-import model.SimpleUser;
+import services.SimpleUser;
 import model.User;
-import model.UserLoginModel;
-import model.UserRegistrationModel;
+import services.UserLoginModel;
+import services.UserRegistrationModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.ModelMap;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package model;
+package services;
 
 /**
  * This class is used to contain main data of picture when there is no need to store the whole data

@@ -3,10 +3,8 @@ package DAOImpl;
 import DAO.CommentDAO;
 import DAO.Statements;
 import model.Comment;
-import model.SimpleUser;
+import services.SimpleUser;
 
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;

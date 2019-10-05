@@ -1,4 +1,4 @@
-package model;
+package services;
 
 /**
  * This class is used for contain data from registration form of Registration page

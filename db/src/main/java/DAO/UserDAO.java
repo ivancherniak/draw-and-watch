@@ -1,9 +1,9 @@
 package DAO;
 
-import model.SimpleUser;
+import services.SimpleUser;
 import model.User;
-import model.UserLoginModel;
-import model.UserRegistrationModel;
+import services.UserLoginModel;
+import services.UserRegistrationModel;
 import org.springframework.ui.ModelMap;
 
 import java.sql.SQLException;

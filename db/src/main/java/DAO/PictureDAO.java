@@ -1,8 +1,8 @@
 package DAO;
 
 import model.Picture;
-import model.PictureModel;
-import model.SimplePicture;
+import services.PictureModel;
+import services.SimplePicture;
 
 import java.sql.SQLException;
 import java.util.List;

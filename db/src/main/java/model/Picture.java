@@ -1,5 +1,8 @@
 package model;
 
+import services.SimplePicture;
+import services.SimpleUser;
+
 import java.util.Date;
 
 /**

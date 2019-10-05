@@ -3,6 +3,9 @@ package DAOImpl;
 import DAO.PictureDAO;
 import DAO.Statements;
 import model.*;
+import services.PictureModel;
+import services.SimplePicture;
+import services.SimpleUser;
 
 import java.sql.*;
 import java.util.ArrayList;

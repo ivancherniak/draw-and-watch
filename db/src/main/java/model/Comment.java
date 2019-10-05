@@ -1,5 +1,7 @@
 package model;
 
+import services.SimpleUser;
+
 /**
  * This class represents comment instances
  */

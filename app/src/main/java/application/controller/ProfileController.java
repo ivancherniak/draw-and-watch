@@ -2,7 +2,7 @@ package application.controller;
 
 import DAOImpl.PictureDAOImpl;
 import DAOImpl.UserDAOImpl;
-import model.SimpleUser;
+import services.SimpleUser;
 import model.User;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
